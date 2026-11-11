@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Drawing Course | The Artistic Sukoon</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #fffdf9;
+            color: #333;
+            line-height: 1.7;
+        }
+
+        header {
+            background: #075e54;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        header h2 {
+            font-size: 22px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+        }
+
+        .hero {
+            background: #f5e4d4;
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+        .hero h1 {
+            color: #075e54;
+            margin-bottom: 10px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            padding: 30px 18px 60px;
+        }
+
+        .lesson {
+            background: white;
+            padding: 24px;
+            margin: 24px 0;
+            border-radius: 14px;
+            box-shadow: 0 3px 15px #0000000d;
+            border: 1px solid #eee5db;
+        }
+
+        .lesson h2 {
+            color: #075e54;
+            margin-bottom: 10px;
+        }
+
+        .lesson h3 {
+            margin: 18px 0 8px;
+        }
+
+        .art-image {
+            display: block;
+            width: 100%;
+            max-width: 520px;
+            margin: 18px auto;
+            background: #fffaf3;
+            border: 1px solid #eee0d0;
+            border-radius: 10px;
+        }
+
+        .practice {
+            background: #e8f4ee;
+            padding: 16px;
+            border-radius: 10px;
+            margin-top: 18px;
+        }
+
+        .practice ul {
+            padding-left: 22px;
+        }
+
+        .note {
+            background: #fff3d9;
+            padding: 14px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .button {
+            display: inline-block;
+            background: #087f6c;
+            color: white;
+            text-decoration: none;
+            padding: 11px 18px;
+            border-radius: 25px;
+            margin: 8px 8px 0 0;
+            border: none;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .button:hover {
+            background: #075e54;
+        }
+
+        .progress {
+            background: #e8e8e8;
+            height: 10px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #087f6c;
+            transition: width 0.3s;
+        }
+
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            header a {
+                margin: 0 12px 0 0;
+            }
+
+            .lesson {
+                padding: 17px;
+            }
+        }
+    </style>
+    
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+
+<body>
+
+<header>
+    <h2>The Artistic Sukoon 🎨</h2>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="courses.html">All Courses</a>
+        <a href="custom%20order.html">Custom Order</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Basic Drawing Course ✏️</h1>
+    <p>Learn drawing step by step with simple lessons and visual examples.</p>
+    <p>Level: Beginner | Lessons: 3</p>
+</section>
+
+<main class="container">
+
+    <section class="lesson">
+        <h2>Lesson 1: Learn Basic Shapes</h2>
+
+        <p>
+            हर drawing की शुरुआत basic shapes से होती है।
+            Circle, square, rectangle और triangle का अभ्यास करें।
+        </p>
+
+        <svg class="art-image" viewBox="0 0 600 220"
+             role="img" aria-label="Circle, square, rectangle and triangle drawing examples">
+            <rect width="600" height="220" fill="#fffaf3"/>
+            <circle cx="85" cy="85" r="45" fill="none" stroke="#087f6c" stroke-width="4"/>
+            <rect x="190" y="40" width="90" height="90" fill="none" stroke="#c46c65" stroke-width="4"/>
+            <rect x="330" y="55" width="130" height="70" fill="none" stroke="#7d73a8" stroke-width="4"/>
+            <polygon points="530,35 485,130 575,130" fill="none" stroke="#d29b36" stroke-width="4"/>
+            <g fill="#333" font-size="17" text-anchor="middle">
+                <text x="85" y="170">Circle</text>
+                <text x="235" y="170">Square</text>
+                <text x="395" y="170">Rectangle</text>
+                <text x="530" y="170">Triangle</text>
+            </g>
+        </svg>
+
+        <h3>How to practise</h3>
+        <ol>
+            <li>एक पेंसिल और कागज़ लें।</li>
+            <li>हर shape को पाँच बार बनाएँ।</li>
+            <li>धीरे-धीरे हाथ चलाएँ और shape को पहचानें।</li>
+        </ol>
+
+        <div class="practice">
+            <strong>Your Practice Task</strong>
+            <p>इन चार shapes को अपनी notebook में बनाएँ। फिर इनसे एक घर या फूल बनाने की कोशिश करें।</p>
+            <label>
+                <input type="checkbox" class="lesson-check">
+                I completed Lesson 1
+            </label>
+        </div>
+    </section>
+
+    <section class="lesson">
+        <h2>Lesson 2: Lines and Shading</h2>
+
+        <p>
+            अलग-अलग तरह की lines से drawing में details आती हैं।
+            Shading से चित्र में light और dark का प्रभाव बनाया जाता है।
+        </p>
+
+        <svg class="art-image" viewBox="0 0 600 230"
+             role="img" aria-label="Examples of straight, curved, zigzag lines and shading">
+            <rect width="600" height="230" fill="#fffaf3"/>
+            <g stroke="#333" stroke-width="3" fill="none">
+                <path d="M35 45 L210 45"/>
+                <path d="M35 90 Q120 25 210 90"/>
+                <path d="M35 145 L70 115 L105 145 L140 115 L175 145 L210 115"/>
+            </g>
+            <g stroke="#333" stroke-width="2">
+                <path d="M275 45 L565 45"/>
+                <path d="M275 60 L545 60"/>
+                <path d="M275 75 L525 75"/>
+                <path d="M275 90 L505 90"/>
+                <path d="M275 105 L485 105"/>
+                <path d="M275 120 L465 120"/>
+                <path d="M275 135 L445 135"/>
+                <path d="M275 150 L425 150"/>
+            </g>
+            <g fill="#333" font-size="16">
+                <text x="35" y="190">Line practice</text>
+                <text x="275" y="190">Light to dark</text>
+            </g>
+        </svg>
+
+        <h3>How to practise</h3>
+        <ol>
+            <li>Straight, curved और zigzag lines बनाएँ।</li>
+            <li>एक ही shape में हल्की और गहरी shading करें।</li>
+            <li>पेंसिल पर दबाव बदलकर देखें कि shade कैसे बदलता है।</li>
+        </ol>
+
+        <div class="practice">
+            <strong>Your Practice Task</strong>
+            <p>एक पट्टी बनाएँ और उसे हल्के से गहरे shade तक भरें।</p>
+            <label>
+                <input type="checkbox" class="lesson-check">
+                I completed Lesson 2
+            </label>
+        </div>
+    </section>
+
+    <section class="lesson">
+        <h2>Lesson 3: Draw a Simple Flower</h2>
+
+        <p>
+            अब basic shapes का उपयोग करके एक आसान फूल बनाएँ।
+            पहले हल्की pencil lines बनाएँ, फिर details जोड़ें।
+        </p>
+
+        <svg class="art-image" viewBox="0 0 500 330"
+             role="img" aria-label="Simple flower drawing tutorial illustration">
+            <rect width="500" height="330" fill="#fffaf3"/>
+            <g fill="#f5d6dc" stroke="#c46c65" stroke-width="2.5">
+                <ellipse cx="250" cy="95" rx="28" ry="48"/>
+                <ellipse cx="250" cy="195" rx="28" ry="48"/>
+                <ellipse cx="200" cy="145" rx="48" ry="28"/>
+                <ellipse cx="300" cy="145" rx="48" ry="28"/>
+                <ellipse cx="215" cy="110" rx="28" ry="43" transform="rotate(-45 215 110)"/>
+                <ellipse cx="285" cy="110" rx="28" ry="43" transform="rotate(45 285 110)"/>
+                <ellipse cx="215" cy="180" rx="28" ry="43" transform="rotate(45 215 180)"/>
+                <ellipse cx="285" cy="180" rx="28" ry="43" transform="rotate(-45 285 180)"/>
+            </g>
+            <circle cx="250" cy="145" r="34" fill="#e8bc53" stroke="#b68a27" stroke-width="3"/>
+            <path d="M250 225 Q248 265 250 290" stroke="#087f6c" stroke-width="7" fill="none"/>
+            <path d="M250 260 Q205 230 190 255 Q212 285 250 270" fill="#a8c9a5" stroke="#087f6c" stroke-width="2"/>
+            <path d="M250 275 Q295 240 315 260 Q295 290 250 285" fill="#a8c9a5" stroke="#087f6c" stroke-width="2"/>
+        </svg>
+
+        <h3>How to draw</h3>
+        <ol>
+            <li>बीच में एक छोटा circle बनाएँ।</li>
+            <li>उसके चारों ओर petals बनाएँ।</li>
+            <li>नीचे stem और दो leaves बनाएँ।</li>
+            <li>अंत में outlines और colours जोड़ें।</li>
+        </ol>
+
+        <div class="practice">
+            <strong>Your Practice Task</strong>
+            <p>अपनी पसंद के रंगों से फूल बनाएँ। चाहें तो उसके पीछे पत्तियाँ या background भी जोड़ें।</p>
+            <label>
+                <input type="checkbox" class="lesson-check">
+                I completed Lesson 3
+            </label>
+        </div>
+    </section>
+
+    <section class="lesson">
+        <h2>Course Progress</h2>
+        <p id="progressText">Completed 0 of 3 lessons</p>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <p>
+            Check each lesson after completing its practice task.
+            आपकी practice ही आपकी सबसे अच्छी teacher है!
+        </p>
+
+        <a class="button" href="courses.html">Back to All Courses</a>
+        <a class="button" href="custom%20order.html">Custom Artwork Order</a>
+    </section>
+
+</main>
+
+<footer>
+    <p>© 2026 The Artistic Sukoon | All Rights Reserved</p>
+</footer>
+
+<script>
+const SUPABASE_URL = "https://lggdeyewxrqpzgqemrmr.supabase.co";
+const SUPABASE_KEY = "sb_publishable_etpSTvH7sSkyGPd1qQqbbQ_WvSlvNSr";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+const checkboxes = document.querySelectorAll(".lesson-check");
+const progressText = document.getElementById("progressText");
+const progressBar = document.getElementById("progressBar");
+const courseSlug = "basic-drawing";
+
+function updateProgress() {
+    const completed = document.querySelectorAll(
+        ".lesson-check:checked"
+    ).length;
+    const total = checkboxes.length;
+
+    progressText.textContent =
+        `Completed ${completed} of ${total} lessons`;
+
+    progressBar.style.width =
+        `${total ? (completed / total) * 100 : 0}%`;
+}
+
+async function loadProgress() {
+    const { data: { user }, error: authError } =
+        await supabaseClient.auth.getUser();
+
+    if (authError || !user) {
+        updateProgress();
+        alert("Progress save karne ke liye pehle Login karein.");
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("course_progress")
+        .select("lesson_number, completed")
+        .eq("user_id", user.id)
+        .eq("course_slug", courseSlug);
+
+    if (error) {
+        console.error("Progress load error:", error);
+        alert("Progress load nahi hua. Console check karein.");
+        updateProgress();
+        return;
+    }
+
+    checkboxes.forEach((checkbox, index) => {
+        const lesson = data.find(
+            item => item.lesson_number === index + 1
+        );
+
+        checkbox.checked = lesson ? lesson.completed : false;
+    });
+
+    updateProgress();
+}
+
+checkboxes.forEach((checkbox, index) => {
+    checkbox.addEventListener("change", async () => {
+        const { data: { user }, error: authError } =
+            await supabaseClient.auth.getUser();
+
+        if (authError || !user) {
+            checkbox.checked = false;
+            alert("Progress save karne ke liye pehle Login karein.");
+            updateProgress();
+            return;
+        }
+
+        const { error } = await supabaseClient
+            .from("course_progress")
+            .upsert({
+                user_id: user.id,
+                course_slug: courseSlug,
+                lesson_number: index + 1,
+                completed: checkbox.checked,
+                updated_at: new Date().toISOString()
+            }, {
+                onConflict: "user_id,course_slug,lesson_number"
+            });
+
+        if (error) {
+            console.error("Progress save error:", error);
+            alert("Progress save nahi hua: " + error.message);
+        }
+
+        updateProgress();
+    });
+});
+
+loadProgress();
+</script>
+
+</body>
+</html>

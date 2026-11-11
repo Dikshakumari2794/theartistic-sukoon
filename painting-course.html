@@ -1,0 +1,243 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painting for Beginners | The Artistic Sukoon</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#fffdf9;color:#333;line-height:1.7}
+header{background:#075e54;color:white;padding:18px 7%;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+header a{color:white;text-decoration:none;margin-right:12px}
+.hero{background:#f8e8cb;text-align:center;padding:40px 18px}
+.hero h1{color:#075e54}
+.container{max-width:900px;margin:auto;padding:25px 18px 55px}
+.lesson{background:white;padding:22px;margin:22px 0;border:1px solid #eee5db;border-radius:14px;box-shadow:0 3px 15px #0000000d}
+h2{color:#075e54;margin-bottom:10px}
+h3{margin:15px 0 8px}
+.art{display:block;width:100%;max-width:520px;margin:18px auto;border:1px solid #eee0d0;border-radius:10px}
+.practice{background:#e8f4ee;padding:15px;border-radius:10px;margin-top:16px}
+ol{padding-left:24px}
+.progress{background:#e8e8e8;height:10px;border-radius:10px;overflow:hidden;margin:12px 0}
+.bar{height:100%;width:0;background:#087f6c;transition:width .3s}
+.btn{display:inline-block;background:#087f6c;color:white;text-decoration:none;padding:10px 17px;border-radius:25px;margin:8px 8px 0 0}
+footer{background:#222;color:white;text-align:center;padding:20px}
+@media(max-width:600px){.lesson{padding:16px}}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+<body>
+<header>
+<h2 style="color:white">The Artistic Sukoon 🎨</h2>
+<nav>
+<a href="index.html">Home</a>
+<a href="courses.html">All Courses</a>
+<a href="custom%20order.html">Custom Order</a>
+</nav>
+</header>
+
+<section class="hero">
+<h1>Painting for Beginners 🖌️</h1>
+<p>Learn painting step by step with simple lessons and visual examples.</p>
+<p>Level: Beginner | Lessons: 3</p>
+</section>
+
+<main class="container">
+<section class="lesson">
+<h2>Lesson 1: Primary Colours</h2>
+<p>Red, yellow और blue को traditional primary colours कहा जाता है। इनके मिश्रण से कई नए रंग बनाए जा सकते हैं।</p>
+<svg class="art" viewBox="0 0 500 190" role="img" aria-label="Three primary colour circles">
+<rect width="500" height="190" fill="#fffaf3"/>
+<circle cx="100" cy="75" r="48" fill="#e74c3c"/>
+<circle cx="250" cy="75" r="48" fill="#f1c40f"/>
+<circle cx="400" cy="75" r="48" fill="#3498db"/>
+<g font-size="17" text-anchor="middle" fill="#333">
+<text x="100" y="150">Red</text>
+<text x="250" y="150">Yellow</text>
+<text x="400" y="150">Blue</text>
+</g>
+</svg>
+<h3>How to practise</h3>
+<ol>
+<li>कागज़ पर तीन छोटे रंगीन circles बनाएँ।</li>
+<li>Red और yellow मिलाकर orange बनाने की कोशिश करें।</li>
+<li>Yellow और blue मिलाकर green बनाएँ।</li>
+<li>Red और blue मिलाकर purple बनाने की कोशिश करें।</li>
+</ol>
+<div class="practice">
+<strong>Practice Task</strong>
+<p>अपने कागज़ पर colour-mixing chart बनाएँ।</p>
+<label><input type="checkbox" class="check"> I completed Lesson 1</label>
+</div>
+</section>
+
+<section class="lesson">
+<h2>Lesson 2: Brush Techniques</h2>
+<p>अलग-अलग brush movements से painting में अलग तरह के marks बनते हैं।</p>
+<svg class="art" viewBox="0 0 500 200" role="img" aria-label="Examples of painting brush strokes">
+<rect width="500" height="200" fill="#fffaf3"/>
+<path d="M35 50 Q120 15 200 50" stroke="#e76f51" stroke-width="16" stroke-linecap="round" fill="none"/>
+<path d="M35 100 L200 100" stroke="#2a9d8f" stroke-width="12" stroke-linecap="round" fill="none"/>
+<path d="M35 150 Q70 120 105 150 T200 150" stroke="#7d73a8" stroke-width="10" stroke-linecap="round" fill="none"/>
+<g fill="#333" font-size="16">
+<text x="245" y="55">Curved strokes</text>
+<text x="245" y="105">Straight strokes</text>
+<text x="245" y="155">Wave strokes</text>
+</g>
+</svg>
+<h3>How to practise</h3>
+<ol>
+<li>एक flat brush और कागज़ लें।</li>
+<li>हल्के हाथ से straight lines बनाएँ।</li>
+<li>Curved lines और waves का अभ्यास करें।</li>
+<li>हर stroke के बीच brush साफ करें जब रंग बदलें।</li>
+</ol>
+<div class="practice">
+<strong>Practice Task</strong>
+<p>तीन तरह के brush strokes से एक छोटा pattern बनाएँ।</p>
+<label><input type="checkbox" class="check"> I completed Lesson 2</label>
+</div>
+</section>
+
+<section class="lesson">
+<h2>Lesson 3: Easy Flower Painting</h2>
+<p>अब basic colours और brush strokes से एक आसान फूल बनाएँ।</p>
+<svg class="art" viewBox="0 0 500 300" role="img" aria-label="Simple colourful flower painting illustration">
+<rect width="500" height="300" fill="#fffaf3"/>
+<g fill="#f4a6b7">
+<ellipse cx="250" cy="85" rx="25" ry="48"/>
+<ellipse cx="250" cy="175" rx="25" ry="48"/>
+<ellipse cx="205" cy="130" rx="48" ry="25"/>
+<ellipse cx="295" cy="130" rx="48" ry="25"/>
+<ellipse cx="218" cy="98" rx="26" ry="42" transform="rotate(-45 218 98)"/>
+<ellipse cx="282" cy="98" rx="26" ry="42" transform="rotate(45 282 98)"/>
+<ellipse cx="218" cy="162" rx="26" ry="42" transform="rotate(45 218 162)"/>
+<ellipse cx="282" cy="162" rx="26" ry="42" transform="rotate(-45 282 162)"/>
+</g>
+<circle cx="250" cy="130" r="30" fill="#f2c14e"/>
+<path d="M250 210 L250 270" stroke="#36865b" stroke-width="7"/>
+<path d="M250 240 Q205 205 190 235 Q215 260 250 250" fill="#7fbd87"/>
+<path d="M250 255 Q295 220 315 240 Q290 270 250 265" fill="#7fbd87"/>
+</svg>
+<h3>How to paint</h3>
+<ol>
+<li>हल्की pencil से फूल का outline बनाएँ।</li>
+<li>Petals में अपनी पसंद का रंग भरें।</li>
+<li>बीच में yellow colour लगाएँ।</li>
+<li>Stem और leaves को green रंग से बनाएँ।</li>
+<li>पेंटिंग को सूखने दें।</li>
+</ol>
+<div class="practice">
+<strong>Practice Task</strong>
+<p>अपनी पसंद के रंगों से एक फूल बनाएँ और अपनी creativity जोड़ें।</p>
+<label><input type="checkbox" class="check"> I completed Lesson 3</label>
+</div>
+</section>
+
+<section class="lesson">
+<h2>Course Progress</h2>
+<p id="progressText">Completed 0 of 3 lessons</p>
+<div class="progress"><div class="bar" id="progressBar"></div></div>
+<a class="btn" href="courses.html">Back to All Courses</a>
+<a class="btn" href="basic-drawing.html">Basic Drawing</a>
+<a class="btn" href="pencil-sketching.html">Pencil Sketching</a>
+</section>
+</main>
+
+<footer>© 2026 The Artistic Sukoon | All Rights Reserved</footer>
+
+<script>
+const SUPABASE_URL = "https://lggdeyewxrqpzgqemrmr.supabase.co";
+const SUPABASE_KEY = "sb_publishable_etpSTvH7sSkyGPd1qQqbbQ_WvSlvNSr";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+const checks = document.querySelectorAll(".check");
+const courseSlug = "painting-course";
+
+async function updateProgress() {
+    const completed = document.querySelectorAll(".check:checked").length;
+
+    document.getElementById("progressText").textContent =
+        `Completed ${completed} of ${checks.length} lessons`;
+
+    document.getElementById("progressBar").style.width =
+        `${checks.length ? completed / checks.length * 100 : 0}%`;
+}
+
+async function loadProgress() {
+    const { data: { user }, error: userError } =
+        await supabaseClient.auth.getUser();
+
+    if (userError || !user) {
+        alert("Progress save karne ke liye pehle Login karein.");
+        updateProgress();
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("course_progress")
+        .select("lesson_number, completed")
+        .eq("user_id", user.id)
+        .eq("course_slug", courseSlug);
+
+    if (error) {
+        console.error("Progress load error:", error.message);
+        alert("Progress load nahi hua. Browser Console check karein.");
+        updateProgress();
+        return;
+    }
+
+    checks.forEach((check, index) => {
+        const lesson = data.find(
+            item => item.lesson_number === index + 1
+        );
+        check.checked = lesson ? lesson.completed : false;
+    });
+
+    updateProgress();
+}
+
+checks.forEach((check, index) => {
+    check.addEventListener("change", async () => {
+        const { data: { user }, error: userError } =
+            await supabaseClient.auth.getUser();
+
+        if (userError || !user) {
+            check.checked = false;
+            alert("Lesson progress save karne ke liye pehle Login karein.");
+            updateProgress();
+            return;
+        }
+
+        const { error } = await supabaseClient
+            .from("course_progress")
+            .upsert({
+                user_id: user.id,
+                course_slug: courseSlug,
+                lesson_number: index + 1,
+                completed: check.checked,
+                updated_at: new Date().toISOString()
+            }, {
+                onConflict: "user_id,course_slug,lesson_number"
+            });
+
+        if (error) {
+            alert("Progress save nahi hua: " + error.message);
+        }
+
+        updateProgress();
+    });
+});
+
+loadProgress();
+</script>
+
+</body>
+</html>

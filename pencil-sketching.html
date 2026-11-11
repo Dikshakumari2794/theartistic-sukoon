@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pencil Sketching | The Artistic Sukoon</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#fffdf9;color:#333;line-height:1.7}
+header{background:#075e54;color:white;padding:18px 7%;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+header a{color:white;text-decoration:none;margin-right:12px}
+.hero{background:#eee8f5;text-align:center;padding:40px 18px}
+.hero h1{color:#514675;margin-bottom:8px}
+.container{max-width:900px;margin:auto;padding:25px 18px 55px}
+.lesson{background:white;padding:22px;margin:22px 0;border:1px solid #eee5db;border-radius:14px;box-shadow:0 3px 15px #0000000d}
+h2{color:#514675;margin-bottom:10px}
+h3{margin:18px 0 8px}
+.art-image{display:block;width:100%;max-width:540px;margin:18px auto;border:1px solid #eee0d0;border-radius:10px}
+.practice{background:#eee8f5;padding:15px;border-radius:10px;margin-top:16px}
+.practice ul,.lesson ol{padding-left:23px}
+.progress{background:#e8e8e8;height:10px;border-radius:10px;overflow:hidden;margin:12px 0}
+.progress-bar{height:100%;width:0;background:#6b5b95;transition:width .3s}
+.button{display:inline-block;background:#6b5b95;color:white;text-decoration:none;padding:10px 17px;border-radius:25px;margin:8px 8px 0 0;border:0;cursor:pointer}
+footer{background:#222;color:white;text-align:center;padding:20px}
+@media(max-width:600px){header{align-items:flex-start;flex-direction:column}.lesson{padding:16px}}
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+</head>
+<body>
+<header>
+<h2 style="color:white">The Artistic Sukoon 🎨</h2>
+<nav>
+<a href="index.html">Home</a>
+<a href="courses.html">All Courses</a>
+<a href="custom%20order.html">Custom Order</a>
+</nav>
+</header>
+
+<section class="hero">
+<h1>Pencil Sketching ✏️</h1>
+<p>Learn pencil control, shading and simple sketching step by step.</p>
+<p>Level: Beginner | Lessons: 3</p>
+</section>
+
+<main class="container">
+
+<section class="lesson">
+<h2>Lesson 1: Pencil Control and Lines</h2>
+<p>अच्छी sketching के लिए pencil को आराम से पकड़ना और अलग-अलग lines का अभ्यास करना ज़रूरी है।</p>
+<svg class="art-image" viewBox="0 0 600 220" role="img" aria-label="Pencil line practice examples">
+<rect width="600" height="220" fill="#fffaf3"/>
+<g stroke="#555" fill="none" stroke-width="3">
+<path d="M40 45 L260 45"/>
+<path d="M40 90 Q150 20 260 90"/>
+<path d="M40 140 L75 110 L110 140 L145 110 L180 140 L215 110 L260 140"/>
+</g>
+<g fill="#333" font-size="17">
+<text x="310" y="50">Straight lines</text>
+<text x="310" y="95">Curved lines</text>
+<text x="310" y="145">Zigzag lines</text>
+</g>
+</svg>
+<h3>How to practise</h3>
+<ol>
+<li>पेंसिल को आराम से पकड़ें।</li>
+<li>सीधी, curved और zigzag lines बनाएँ।</li>
+<li>हर line को पाँच बार दोहराएँ।</li>
+</ol>
+<div class="practice">
+<strong>Practice Task</strong>
+<p>अपनी notebook में तीनों तरह की lines बनाएँ।</p>
+<label><input type="checkbox" class="lesson-check"> I completed Lesson 1</label>
+</div>
+</section>
+
+<section class="lesson">
+<h2>Lesson 2: Light and Dark Shading</h2>
+<p>Shading से drawing में depth आती है। हल्के दबाव से light shade और थोड़े अधिक दबाव से dark shade बनता है।</p>
+<svg class="art-image" viewBox="0 0 600 210" role="img" aria-label="Light to dark pencil shading">
+<rect width="600" height="210" fill="#fffaf3"/>
+<defs><linearGradient id="shade"><stop offset="0%" stop-color="#fff"/><stop offset="100%" stop-color="#333"/></linearGradient></defs>
+<rect x="40" y="45" width="520" height="75" fill="url(#shade)" stroke="#555"/>
+<g fill="#333" font-size="16"><text x="40" y="155">Light</text><text x="275" y="155">Medium</text><text x="510" y="155">Dark</text></g>
+</svg>
+<h3>How to practise</h3>
+<ol>
+<li>एक लंबी rectangle बनाएँ।</li>
+<li>एक तरफ बहुत हल्की shading करें।</li>
+<li>धीरे-धीरे दूसरी तरफ dark shading करें।</li>
+</ol>
+<div class="practice">
+<strong>Practice Task</strong>
+<p>Light, medium और dark के तीन अलग-अलग shades बनाएँ।</p>
+<label><input type="checkbox" class="lesson-check"> I completed Lesson 2</label>
+</div>
+</section>
+
+<section class="lesson">
+<h2>Lesson 3: Draw a Simple Apple</h2>
+<p>एक apple को सरल आकार से शुरू करके sketch करना सीखें।</p>
+<svg class="art-image" viewBox="0 0 500 300" role="img" aria-label="Simple apple sketch illustration">
+<rect width="500" height="300" fill="#fffaf3"/>
+<path d="M250 100 C210 65 150 90 155 155 C160 220 210 245 250 230 C290 245 340 220 345 155 C350 90 290 65 250 100Z" fill="#f1e9df" stroke="#555" stroke-width="3"/>
+<path d="M250 100 Q245 75 255 60" fill="none" stroke="#555" stroke-width="4"/>
+<path d="M255 70 Q285 45 305 65 Q285 85 255 70Z" fill="#d9e5d3" stroke="#555" stroke-width="2"/>
+<path d="M185 135 Q175 180 205 205" fill="none" stroke="#aaa" stroke-width="3"/>
+<path d="M300 130 Q330 175 295 210" fill="none" stroke="#bbb" stroke-width="3"/>
+</svg>
+<h3>How to draw</h3>
+<ol>
+<li>Apple का हल्का outline बनाएँ।</li>
+<li>ऊपर छोटा stem और leaf बनाएँ।</li>
+<li>एक तरफ हल्की shading करें और दूसरी तरफ थोड़ा dark shade बनाएँ।</li>
+<li>अनावश्यक guide lines मिटा दें।</li>
+</ol>
+<div class="practice">
+<strong>Practice Task</strong>
+<p>एक apple की sketch बनाएँ और उसमें light तथा shadow दिखाएँ।</p>
+<label><input type="checkbox" class="lesson-check"> I completed Lesson 3</label>
+</div>
+</section>
+
+<section class="lesson">
+<h2>Course Progress</h2>
+<p id="progressText">Completed 0 of 3 lessons</p>
+<div class="progress"><div class="progress-bar" id="progressBar"></div></div>
+<a class="button" href="courses.html">Back to All Courses</a>
+<a class="button" href="basic-drawing.html">Basic Drawing</a>
+</section>
+</main>
+
+<footer>© 2026 The Artistic Sukoon | All Rights Reserved</footer>
+
+
+<script>
+const SUPABASE_URL = "https://lggdeyewxrqpzgqemrmr.supabase.co";
+const SUPABASE_KEY = "sb_publishable_etpSTvH7sSkyGPd1qQqbbQ_WvSlvNSr";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+const checkboxes = document.querySelectorAll(".lesson-check");
+const progressText = document.getElementById("progressText");
+const progressBar = document.getElementById("progressBar");
+const courseSlug = "pencil-sketching";
+
+function updateProgress() {
+    const completed = document.querySelectorAll(
+        ".lesson-check:checked"
+    ).length;
+    const total = checkboxes.length;
+
+    progressText.textContent =
+        `Completed ${completed} of ${total} lessons`;
+
+    progressBar.style.width =
+        `${total ? (completed / total) * 100 : 0}%`;
+}
+
+async function loadProgress() {
+    const { data: { user }, error: authError } =
+        await supabaseClient.auth.getUser();
+
+    if (authError || !user) {
+        updateProgress();
+        alert("Progress save karne ke liye pehle Login karein.");
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("course_progress")
+        .select("lesson_number, completed")
+        .eq("user_id", user.id)
+        .eq("course_slug", courseSlug);
+
+    if (error) {
+        console.error("Progress load error:", error);
+        alert("Progress load nahi hua. Console check karein.");
+        updateProgress();
+        return;
+    }
+
+    checkboxes.forEach((checkbox, index) => {
+        const lesson = data.find(
+            item => item.lesson_number === index + 1
+        );
+        checkbox.checked = lesson ? lesson.completed : false;
+    });
+
+    updateProgress();
+}
+
+checkboxes.forEach((checkbox, index) => {
+    checkbox.addEventListener("change", async () => {
+        const { data: { user }, error: authError } =
+            await supabaseClient.auth.getUser();
+
+        if (authError || !user) {
+            checkbox.checked = false;
+            alert("Progress save karne ke liye pehle Login karein.");
+            updateProgress();
+            return;
+        }
+
+        const { error } = await supabaseClient
+            .from("course_progress")
+            .upsert({
+                user_id: user.id,
+                course_slug: courseSlug,
+                lesson_number: index + 1,
+                completed: checkbox.checked,
+                updated_at: new Date().toISOString()
+            }, {
+                onConflict: "user_id,course_slug,lesson_number"
+            });
+
+        if (error) {
+            console.error("Progress save error:", error);
+            alert("Progress save nahi hua: " + error.message);
+        }
+
+        updateProgress();
+    });
+});
+
+loadProgress();
+</script>
+
+</body>
+</html>

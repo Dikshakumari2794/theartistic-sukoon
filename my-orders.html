@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Orders | The Artistic Sukoon</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #fffdf9;
+            color: #123c3a;
+        }
+
+        header {
+            background: #075e54;
+            color: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 950px;
+            margin: 35px auto;
+            padding: 0 18px;
+        }
+
+        h2.section-heading {
+            margin-top: 40px;
+            margin-bottom: 6px;
+            color: #075e54;
+        }
+
+        .order-card {
+            background: white;
+            border: 1px solid #e7e1d8;
+            border-radius: 14px;
+            padding: 20px;
+            margin: 18px 0;
+            box-shadow: 0 4px 12px #00000008;
+            overflow-wrap: anywhere;
+        }
+
+        .order-card h3 {
+            margin-top: 0;
+            color: #075e54;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            background: #f4eee5;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .muted {
+            color: #666;
+            line-height: 1.7;
+        }
+
+        .message {
+            background: #f4eee5;
+            padding: 16px;
+            border-radius: 10px;
+            line-height: 1.6;
+        }
+
+        .reference {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+            margin-top: 10px;
+        }
+
+        button.view-screenshot {
+            margin-top: 10px;
+            padding: 9px 14px;
+            background: #087f6c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h2>🎨 The Artistic Sukoon</h2>
+        <a href="index.html">← Back to Home</a>
+    </header>
+
+    <main>
+        <h1>My Orders</h1>
+        <p class="muted">
+            Yahan aap apne custom artwork orders aur marketplace
+            purchases, dono ka status dekh sakte hain.
+        </p>
+
+        <h2 class="section-heading">Custom Orders</h2>
+        <div id="customMessage" class="message">Loading your orders...</div>
+        <div id="customOrders"></div>
+
+        <h2 class="section-heading">Marketplace Orders</h2>
+        <div id="productMessage" class="message">Loading your orders...</div>
+        <div id="productOrders"></div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        const supabaseClient = window.supabase.createClient(
+            "https://lggdeyewxrqpzgqemrmr.supabase.co",
+            "sb_publishable_etpSTvH7sSkyGPd1qQqbbQ_WvSlvNSr"
+        );
+
+        async function loadCustomOrders(user) {
+            const message = document.getElementById("customMessage");
+            const ordersContainer = document.getElementById("customOrders");
+
+            const { data: orders, error } = await supabaseClient
+                .from("custom_orders")
+                .select(`
+                    id,
+                    art_type,
+                    painting_size,
+                    budget,
+                    preferred_colors,
+                    description,
+                    preferred_delivery_date,
+                    reference_image_path,
+                    created_at,
+                    status
+                `)
+                .eq("email", user.email)
+                .order("created_at", { ascending: false });
+
+            if (error) {
+                message.textContent =
+                    "Orders load nahi ho paaye. Database access policy check karein.";
+                console.error("Custom order loading error:", error);
+                return;
+            }
+
+            message.textContent = orders.length
+                ? "Aapke total custom orders: " + orders.length
+                : "Abhi aapka koi custom order nahi hai.";
+
+            for (const order of orders) {
+                const card = document.createElement("article");
+                card.className = "order-card";
+
+                const title = document.createElement("h3");
+                title.textContent = order.art_type || "Custom Artwork";
+                card.appendChild(title);
+
+                const details = [
+                    ["Order ID", order.id],
+                    ["Size", order.painting_size],
+                    ["Budget", order.budget],
+                    ["Preferred Colors", order.preferred_colors],
+                    ["Description", order.description],
+                    ["Preferred Delivery", order.preferred_delivery_date],
+                    ["Order Date", order.created_at
+                        ? new Date(order.created_at).toLocaleDateString()
+                        : "Not available"]
+                ];
+
+                details.forEach(([label, value]) => {
+                    if (value !== null && value !== undefined && value !== "") {
+                        const p = document.createElement("p");
+                        p.className = "muted";
+                        p.textContent = label + ": " + value;
+                        card.appendChild(p);
+                    }
+                });
+
+                const status = document.createElement("span");
+                status.className = "status";
+                status.textContent = "Status: " + (order.status || "Pending");
+                card.appendChild(status);
+
+                if (order.reference_image_path) {
+                    const imageTitle = document.createElement("h4");
+                    imageTitle.textContent = "Your Reference Image";
+                    card.appendChild(imageTitle);
+
+                    const imageMessage = document.createElement("p");
+                    imageMessage.className = "muted";
+                    imageMessage.textContent = "Loading image...";
+                    card.appendChild(imageMessage);
+
+                    const { data: signedData, error: imageError } =
+                        await supabaseClient.storage
+                            .from("order-reference-images")
+                            .createSignedUrl(order.reference_image_path, 300);
+
+                    if (imageError) {
+                        console.error("Reference image error:", imageError);
+                        imageMessage.textContent =
+                            "Reference image abhi load nahi ho paayi.";
+                    } else {
+                        const image = document.createElement("img");
+                        image.className = "reference";
+                        image.src = signedData.signedUrl;
+                        image.alt = "Reference image for this order";
+
+                        imageMessage.textContent = "";
+                        imageMessage.appendChild(image);
+                    }
+                }
+
+                ordersContainer.appendChild(card);
+            }
+        }
+
+        async function loadProductOrders(user) {
+            const message = document.getElementById("productMessage");
+            const ordersContainer = document.getElementById("productOrders");
+
+            const { data: orders, error } = await supabaseClient
+                .from("artwork_orders")
+                .select("*")
+                .eq("buyer_id", user.id)
+                .order("created_at", { ascending: false });
+
+            if (error) {
+                message.textContent =
+                    "Orders load nahi ho paaye. Database access policy check karein.";
+                console.error("Product order loading error:", error);
+                return;
+            }
+
+            message.textContent = orders.length
+                ? "Aapke total marketplace orders: " + orders.length
+                : "Abhi aapne marketplace se koi artwork order nahi ki hai.";
+
+            for (const order of orders) {
+                const card = document.createElement("article");
+                card.className = "order-card";
+
+                const title = document.createElement("h3");
+                title.textContent = order.artwork_name || "Artwork";
+                card.appendChild(title);
+
+                const details = [
+                    ["Order ID", order.id],
+                    ["Price", "₹" + Number(order.price).toLocaleString("en-IN")],
+                    ["Delivery Address", order.address],
+                    ["Order Date", order.created_at
+                        ? new Date(order.created_at).toLocaleDateString()
+                        : "Not available"]
+                ];
+
+                details.forEach(([label, value]) => {
+                    if (value !== null && value !== undefined && value !== "") {
+                        const p = document.createElement("p");
+                        p.className = "muted";
+                        p.textContent = label + ": " + value;
+                        card.appendChild(p);
+                    }
+                });
+
+                const status = document.createElement("span");
+                status.className = "status";
+                status.textContent = "Status: " + (order.status || "Payment Pending");
+                card.appendChild(status);
+
+                if (order.payment_screenshot_path) {
+                    const viewBtn = document.createElement("button");
+                    viewBtn.type = "button";
+                    viewBtn.className = "view-screenshot";
+                    viewBtn.textContent = "View Payment Screenshot";
+
+                    const image = document.createElement("img");
+                    image.className = "reference";
+                    image.alt = "Payment screenshot";
+                    image.style.display = "none";
+
+                    viewBtn.addEventListener("click", async () => {
+                        if (image.style.display === "none") {
+                            if (!image.src) {
+                                const { data: signedData, error: imageError } =
+                                    await supabaseClient.storage
+                                        .from("payment-screenshots")
+                                        .createSignedUrl(
+                                            order.payment_screenshot_path,
+                                            300
+                                        );
+
+                                if (imageError) {
+                                    alert("Screenshot load nahi ho paayi.");
+                                    console.error(imageError);
+                                    return;
+                                }
+
+                                image.src = signedData.signedUrl;
+                            }
+
+                            image.style.display = "block";
+                            viewBtn.textContent = "Hide Payment Screenshot";
+                        } else {
+                            image.style.display = "none";
+                            viewBtn.textContent = "View Payment Screenshot";
+                        }
+                    });
+
+                    card.appendChild(viewBtn);
+                    card.appendChild(image);
+                }
+
+                ordersContainer.appendChild(card);
+            }
+        }
+
+        async function loadOrders() {
+            const { data: { user }, error: authError } =
+                await supabaseClient.auth.getUser();
+
+            if (authError || !user) {
+                const customMessage = document.getElementById("customMessage");
+                const productMessage = document.getElementById("productMessage");
+
+                customMessage.textContent = "Please login to view your orders. ";
+                productMessage.textContent = "Please login to view your orders. ";
+
+                const link1 = document.createElement("a");
+                link1.href = "login.html";
+                link1.textContent = "Login now";
+                customMessage.appendChild(link1);
+
+                const link2 = document.createElement("a");
+                link2.href = "login.html";
+                link2.textContent = "Login now";
+                productMessage.appendChild(link2);
+                return;
+            }
+
+            await Promise.all([
+                loadCustomOrders(user),
+                loadProductOrders(user)
+            ]);
+        }
+
+        loadOrders();
+    </script>
+</body>
+</html>

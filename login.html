@@ -1,0 +1,213 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | The Artistic Sukoon</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fffaf5;
+            color: #393331;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: white;
+            padding: 20px 8%;
+            box-shadow: 0 2px 10px #00000010;
+        }
+
+        header a {
+            color: #b76e79;
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 35px 15px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            box-shadow: 0 5px 25px #00000012;
+        }
+
+        .login-card h1 {
+            text-align: center;
+            color: #b76e79;
+            margin-bottom: 10px;
+        }
+
+        .intro {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin: 17px 0 7px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 24px;
+            border: none;
+            border-radius: 25px;
+            background: #b76e79;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #96515d;
+        }
+
+        .signup-text {
+            text-align: center;
+            margin-top: 22px;
+            line-height: 1.8;
+        }
+
+        .signup-text a {
+            color: #b76e79;
+            font-weight: bold;
+        }
+
+        .message {
+            margin-top: 15px;
+            text-align: center;
+            color: #96515d;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            background: #393331;
+            color: white;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="index.html">The Artistic Sukoon 🎨</a>
+</header>
+
+<main>
+    <section class="login-card">
+        <h1>Welcome Back!</h1>
+        <p class="intro">Login to your artistic world.</p>
+
+        <form id="loginForm">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email"
+                   placeholder="Enter your email" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password"
+                   placeholder="Enter your password" required>
+
+            <button type="submit">Login</button>
+
+            <p id="message" class="message" aria-live="polite"></p>
+        </form>
+
+        <p class="signup-text">
+            Don't have an account?<br>
+            <a href="signup.html">Create an Account</a>
+            <br><br>
+            <a href="index.html">← Back to Home</a>
+        </p>
+    </section>
+</main>
+
+<footer>
+    <p>© 2026 The Artistic Sukoon</p>
+</footer>
+   
+
+<!-- Supabase JS library: अगर पहले से जोड़ी है, तो दोबारा न जोड़ें -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const supabaseClient = window.supabase.createClient(
+    "https://lggdeyewxrqpzgqemrmr.supabase.co",
+    "sb_publishable_etpSTvH7sSkyGPd1qQqbbQ_WvSlvNSr"
+  );
+
+  const loginForm = document.getElementById("loginForm");
+  const message = document.getElementById("message");
+
+  loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    message.textContent = "Logging in...";
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    const { error } = await supabaseClient.auth.signInWithPassword({
+      email,
+      password
+    });
+
+    if (error) {
+      message.textContent = error.message;
+      return;
+    }
+
+    const { data: admin, error: adminError } = await supabaseClient
+  .from("admin_users")
+  .select("user_id")
+  .eq("user_id", (await supabaseClient.auth.getUser()).data.user.id)
+  .maybeSingle();
+
+if (adminError) {
+  message.textContent = "Login successful, but role check failed.";
+  return;
+}
+
+if (admin) {
+  window.location.href = "admin.html";
+} else {
+  window.location.href = "index.html";
+}
+  });
+</script>
+
+</body>
+</html>

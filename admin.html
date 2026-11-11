@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | The Artistic Sukoon</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fffdf9;
+      color: #352d29;
+    }
+
+    /* ---------- LAYOUT ---------- */
+
+    .admin-shell {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+    }
+
+    /* ---------- SIDEBAR ---------- */
+
+    .sidebar {
+      background: #352d29;
+      color: white;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .sidebar h1 {
+      font-size: 19px;
+      color: #f4e9dd;
+      margin-bottom: 2px;
+    }
+
+    .sidebar p.subtitle {
+      font-size: 12px;
+      color: #b7a999;
+      margin-bottom: 24px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 9px;
+      background: transparent;
+      border: none;
+      color: #e9ddd0;
+      text-align: left;
+      font-size: 15px;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .nav-item:hover {
+      background: #4a3f38;
+    }
+
+    .nav-item.active {
+      background: #815b45;
+      color: white;
+      font-weight: bold;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+    }
+
+    #logoutButton {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1px solid #6b5c50;
+      border-radius: 9px;
+      background: transparent;
+      color: #e9ddd0;
+      cursor: pointer;
+    }
+
+    #logoutButton:hover {
+      background: #4a3f38;
+    }
+
+    /* ---------- MAIN CONTENT ---------- */
+
+    .main {
+      padding: 28px 32px;
+      min-width: 0;
+    }
+
+    .main-header {
+      margin-bottom: 22px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .main-header h2 {
+      color: #815b45;
+      font-size: 24px;
+    }
+
+    .main-header p {
+      color: #8a7a6f;
+      margin-top: 4px;
+    }
+
+    .view {
+      display: none;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    #message {
+      margin: 16px 0;
+      overflow-wrap: anywhere;
+    }
+
+    /* ---------- DASHBOARD OVERVIEW ---------- */
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 16px;
+      margin-bottom: 10px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid #eadfd5;
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .stat-card .stat-number {
+      font-size: 28px;
+      font-weight: bold;
+      color: #815b45;
+    }
+
+    .stat-card .stat-label {
+      color: #8a7a6f;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .quick-link {
+      display: inline-block;
+      margin-top: 22px;
+      margin-right: 10px;
+      padding: 11px 18px;
+      background: #815b45;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    /* ---------- ORDERS / PRODUCT ORDERS (shared card look) ---------- */
+
+    .orders {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 18px;
+    }
+
+    .order {
+      background: white;
+      border: 1px solid #eadfd5;
+      border-radius: 12px;
+      padding: 18px;
+      overflow-wrap: anywhere;
+    }
+
+    .order p { line-height: 1.5; }
+
+    .reference {
+      width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+      margin-top: 12px;
+      border-radius: 8px;
+      background: #f5f0ea;
+    }
+
+    .muted { color: #716860; }
+
+    /* ---------- ARTWORKS MANAGEMENT ---------- */
+
+    .add-artwork-btn {
+      padding: 11px 18px;
+      background: #815b45;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .artwork-form {
+      display: none;
+      background: white;
+      border: 1px solid #eadfd5;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 22px;
+      max-width: 480px;
+    }
+
+    .artwork-form.active {
+      display: block;
+    }
+
+    .artwork-form label {
+      display: block;
+      margin: 12px 0 6px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .artwork-form input,
+    .artwork-form select,
+    .artwork-form textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #d8c9bd;
+      border-radius: 7px;
+      font-size: 14px;
+    }
+
+    .artwork-form textarea {
+      min-height: 70px;
+      resize: vertical;
+    }
+
+    .artwork-form .form-actions {
+      margin-top: 16px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .artwork-form .save-btn {
+      padding: 10px 16px;
+      background: #815b45;
+      color: white;
+      border: none;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .artwork-form .cancel-btn {
+      padding: 10px 16px;
+      background: white;
+      border: 1px solid #c9bcae;
+      border-radius: 7px;
+      cursor: pointer;
+    }
+
+    .artwork-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 18px;
+    }
+
+    .artwork-card {
+      background: white;
+      border: 1px solid #eadfd5;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .artwork-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      background: #f5f0ea;
+    }
+
+    .artwork-card .artwork-body {
+      padding: 14px;
+    }
+
+    .artwork-card h3 {
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .artwork-card .artwork-price {
+      color: #087f6c;
+      font-weight: bold;
+      margin: 6px 0;
+    }
+
+    .artwork-card .artwork-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .artwork-card button {
+      flex: 1;
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .edit-btn {
+      background: #e8e0d8;
+      color: #352d29;
+    }
+
+    .delete-btn {
+      background: #c0564f;
+      color: white;
+    }
+
+    @media (max-width: 800px) {
+      .admin-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .sidebar h1, .sidebar p.subtitle {
+        width: 100%;
+      }
+
+      .sidebar-bottom {
+        margin-top: 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="admin-shell">
+
+    <aside class="sidebar">
+      <h1>The Artistic Sukoon</h1>
+      <p class="subtitle">Admin Panel</p>
+
+      <button class="nav-item active" id="navDashboard" type="button">
+        📊 Dashboard
+      </button>
+      <button class="nav-item" id="navOrders" type="button">
+        🧾 Custom Orders
+      </button>
+      <button class="nav-item" id="navArtworks" type="button">
+        🖼️ Artworks
+      </button>
+      <button class="nav-item" id="navProductOrders" type="button">
+        💳 Product Orders
+      </button>
+
+      <div class="sidebar-bottom">
+        <button id="logoutButton" type="button">Logout</button>
+      </div>
+    </aside>
+
+    <main class="main">
+
+      <p id="message">Checking admin access...</p>
+
+      <!-- ===== DASHBOARD VIEW (default) ===== -->
+      <section class="view active" id="viewDashboard">
+        <div class="main-header">
+          <div>
+            <h2>Dashboard Overview</h2>
+            <p>A quick look at your store.</p>
+          </div>
+        </div>
+
+        <div class="stat-grid" id="statGrid">
+          <div class="stat-card">
+            <div class="stat-number" id="statTotal">–</div>
+            <div class="stat-label">Custom Orders</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="statPending">–</div>
+            <div class="stat-label">Pending</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="statAccepted">–</div>
+            <div class="stat-label">Accepted</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="statProgress">–</div>
+            <div class="stat-label">In Progress</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="statCompleted">–</div>
+            <div class="stat-label">Completed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="statArtworkCount">–</div>
+            <div class="stat-label">Artworks Listed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="statProductOrders">–</div>
+            <div class="stat-label">Product Orders</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="statPaymentPending">–</div>
+            <div class="stat-label">Payments to Verify</div>
+          </div>
+        </div>
+
+        <button class="quick-link" id="goToOrdersBtn" type="button">
+          View Custom Orders →
+        </button>
+        <button class="quick-link" id="goToProductOrdersBtn" type="button">
+          View Product Orders →
+        </button>
+      </section>
+
+      <!-- ===== CUSTOM ORDERS VIEW ===== -->
+      <section class="view" id="viewOrders">
+        <div class="main-header">
+          <div>
+            <h2>Custom Orders</h2>
+            <p>Manage and update the status of every custom order.</p>
+          </div>
+        </div>
+
+        <section id="orders" class="orders"></section>
+      </section>
+
+      <!-- ===== ARTWORKS VIEW ===== -->
+      <section class="view" id="viewArtworks">
+        <div class="main-header">
+          <div>
+            <h2>Artworks</h2>
+            <p>Add, edit or remove artworks shown in the Shop.</p>
+          </div>
+          <button class="add-artwork-btn" id="addArtworkBtn" type="button">
+            + Add New Artwork
+          </button>
+        </div>
+
+        <form class="artwork-form" id="artworkForm">
+          <input type="hidden" id="artworkId">
+
+          <label for="artworkName">Name *</label>
+          <input type="text" id="artworkName" required>
+
+          <label for="artworkDescription">Description</label>
+          <textarea id="artworkDescription"></textarea>
+
+          <label for="artworkPrice">Price (₹) *</label>
+          <input type="number" id="artworkPrice" min="0" step="1" required>
+
+          <label for="artworkCategory">Category *</label>
+          <select id="artworkCategory" required>
+            <option value="paintings">Paintings</option>
+            <option value="sketches">Sketches</option>
+            <option value="digital-art">Digital Art</option>
+          </select>
+
+          <label for="artworkImageFile">Artwork Photo *</label>
+          <input type="file" id="artworkImageFile" accept="image/*">
+          <p class="muted" id="artworkImageHint" style="margin-top:6px;font-size:13px;">
+            Choose a clear photo of the artwork.
+          </p>
+          <img id="artworkImagePreview" alt="Preview"
+               style="display:none;max-width:100%;max-height:180px;
+               margin-top:10px;border-radius:8px;object-fit:cover;">
+          <input type="hidden" id="artworkImageUrl">
+
+          <div class="form-actions">
+            <button type="submit" class="save-btn" id="artworkSaveBtn">
+              Save Artwork
+            </button>
+            <button type="button" class="cancel-btn" id="artworkCancelBtn">
+              Cancel
+            </button>
+          </div>
+
+          <p id="artworkFormMessage" style="margin-top:10px;"></p>
+        </form>
+
+        <div class="artwork-grid" id="artworkGrid"></div>
+      </section>
+
+      <!-- ===== PRODUCT ORDERS VIEW ===== -->
+      <section class="view" id="viewProductOrders">
+        <div class="main-header">
+          <div>
+            <h2>Product Orders (UPI)</h2>
+            <p>Verify payment screenshots and update order status.</p>
+          </div>
+        </div>
+
+        <section id="productOrders" class="orders"></section>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    const supabaseClient = window.supabase.createClient(
+      "https://lggdeyewxrqpzgqemrmr.supabase.co",
+      "sb_publishable_etpSTvH7sSkyGPd1qQqbbQ_WvSlvNSr"
+    );
+
+    const message = document.getElementById("message");
+    const ordersContainer = document.getElementById("orders");
+
+    const navDashboard = document.getElementById("navDashboard");
+    const navOrders = document.getElementById("navOrders");
+    const navArtworks = document.getElementById("navArtworks");
+    const navProductOrders = document.getElementById("navProductOrders");
+
+    const viewDashboard = document.getElementById("viewDashboard");
+    const viewOrders = document.getElementById("viewOrders");
+    const viewArtworks = document.getElementById("viewArtworks");
+    const viewProductOrders = document.getElementById("viewProductOrders");
+
+    const goToOrdersBtn = document.getElementById("goToOrdersBtn");
+    const goToProductOrdersBtn =
+      document.getElementById("goToProductOrdersBtn");
+
+    let allOrders = [];
+    let allArtworks = [];
+    let allProductOrders = [];
+
+    let ordersLoaded = false;
+    let artworksLoaded = false;
+    let productOrdersLoaded = false;
+
+    const views = {
+      dashboard: { btn: navDashboard, section: viewDashboard },
+      orders: { btn: navOrders, section: viewOrders },
+      artworks: { btn: navArtworks, section: viewArtworks },
+      productOrders: { btn: navProductOrders, section: viewProductOrders }
+    };
+
+    function showView(name) {
+      Object.entries(views).forEach(([key, v]) => {
+        const isActive = key === name;
+        v.section.classList.toggle("active", isActive);
+        v.btn.classList.toggle("active", isActive);
+      });
+
+      if (name === "orders" && !ordersLoaded) loadOrders();
+      if (name === "artworks" && !artworksLoaded) loadArtworks();
+      if (name === "productOrders" && !productOrdersLoaded) {
+        loadProductOrders();
+      }
+    }
+
+    navDashboard.addEventListener("click", () => showView("dashboard"));
+    navOrders.addEventListener("click", () => showView("orders"));
+    navArtworks.addEventListener("click", () => showView("artworks"));
+    navProductOrders.addEventListener("click", () =>
+      showView("productOrders")
+    );
+    goToOrdersBtn.addEventListener("click", () => showView("orders"));
+    goToProductOrdersBtn.addEventListener("click", () =>
+      showView("productOrders")
+    );
+
+    async function startDashboard() {
+      const { data: sessionData, error: sessionError } =
+        await supabaseClient.auth.getSession();
+
+      if (sessionError || !sessionData.session) {
+        window.location.assign("./login.html");
+        return;
+      }
+
+      const user = sessionData.session.user;
+
+      const { data: admin, error: adminError } = await supabaseClient
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+      if (adminError || !admin) {
+        message.textContent = "Access denied. Admin permission required.";
+        viewDashboard.classList.remove("active");
+        return;
+      }
+
+      message.textContent = "";
+
+      await Promise.all([loadOrders(), loadArtworks(), loadProductOrders()]);
+      showView("dashboard");
+    }
+
+    function computeStats() {
+      const counts = {
+        Pending: 0,
+        Accepted: 0,
+        "In Progress": 0,
+        Completed: 0,
+        Cancelled: 0
+      };
+
+      allOrders.forEach(order => {
+        const status = counts.hasOwnProperty(order.status)
+          ? order.status
+          : "Pending";
+        counts[status]++;
+      });
+
+      document.getElementById("statTotal").textContent = allOrders.length;
+      document.getElementById("statPending").textContent = counts.Pending;
+      document.getElementById("statAccepted").textContent = counts.Accepted;
+      document.getElementById("statProgress").textContent =
+        counts["In Progress"];
+      document.getElementById("statCompleted").textContent =
+        counts.Completed;
+
+      document.getElementById("statArtworkCount").textContent =
+        allArtworks.length;
+
+      document.getElementById("statProductOrders").textContent =
+        allProductOrders.length;
+
+      const paymentPending = allProductOrders.filter(
+        o => o.status === "Payment Pending"
+      ).length;
+      document.getElementById("statPaymentPending").textContent =
+        paymentPending;
+    }
+
+    /* ===================== CUSTOM ORDERS ===================== */
+
+    async function loadOrders() {
+      ordersContainer.replaceChildren();
+
+      const { data: orders, error } = await supabaseClient
+        .from("custom_orders")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        message.textContent =
+          "Could not load orders. Please check database permissions.";
+        console.error(error);
+        return;
+      }
+
+      allOrders = orders || [];
+      ordersLoaded = true;
+      computeStats();
+
+      if (allOrders.length === 0) {
+        const emptyMsg = document.createElement("p");
+        emptyMsg.className = "muted";
+        emptyMsg.textContent = "No orders found yet.";
+        ordersContainer.appendChild(emptyMsg);
+        return;
+      }
+
+      for (const order of allOrders) {
+        const card = document.createElement("article");
+        card.className = "order";
+
+        const heading = document.createElement("h2");
+        heading.textContent = `Order #${order.id}`;
+        card.appendChild(heading);
+
+        const details = [
+          ["Customer", order.customer_name],
+          ["Email", order.email],
+          ["Phone", order.phone],
+          ["Art type", order.art_type],
+          ["Size", order.painting_size],
+          ["Budget", order.budget],
+          ["Colors", order.preferred_colors],
+          ["Description", order.description],
+          ["Delivery date", order.preferred_delivery_date],
+          ["Created", order.created_at
+            ? new Date(order.created_at).toLocaleString()
+            : null]
+        ];
+
+        for (const [label, value] of details) {
+          if (value === null || value === undefined || value === "") {
+            continue;
+          }
+
+          const p = document.createElement("p");
+          const strong = document.createElement("strong");
+          strong.textContent = `${label}: `;
+          p.appendChild(strong);
+          p.appendChild(document.createTextNode(String(value)));
+          card.appendChild(p);
+        }
+
+        if (order.reference_image_path) {
+          const imageLabel = document.createElement("p");
+          imageLabel.textContent = "Reference image:";
+          card.appendChild(imageLabel);
+
+          const { data: signed, error: imageError } =
+            await supabaseClient.storage
+              .from("order-reference-images")
+              .createSignedUrl(order.reference_image_path, 300);
+
+          if (!imageError && signed?.signedUrl) {
+
+            const imageButton = document.createElement("button");
+            imageButton.type = "button";
+            imageButton.textContent = "View Reference Image";
+
+            const image = document.createElement("img");
+            image.className = "reference";
+            image.alt = `Reference image for order ${order.id}`;
+            image.loading = "lazy";
+            image.src = signed.signedUrl;
+            image.style.display = "none";
+
+            imageButton.addEventListener("click", () => {
+              const isHidden = image.style.display === "none";
+              image.style.display = isHidden ? "block" : "none";
+              imageButton.textContent = isHidden
+                ? "Hide Reference Image"
+                : "View Reference Image";
+            });
+
+            card.appendChild(imageButton);
+            card.appendChild(image);
+
+          } else {
+            const note = document.createElement("p");
+            note.className = "muted";
+            note.textContent = "Image could not be loaded.";
+            card.appendChild(note);
+            console.error(imageError);
+          }
+        }
+
+        const statusSection = document.createElement("div");
+        statusSection.style.marginTop = "16px";
+        statusSection.style.padding = "12px";
+        statusSection.style.borderTop = "1px solid #ddd";
+
+        const statusLabel = document.createElement("label");
+        statusLabel.textContent = "Order Status: ";
+        statusLabel.style.fontWeight = "bold";
+
+        const statusSelect = document.createElement("select");
+        statusSelect.style.padding = "8px";
+        statusSelect.style.margin = "8px";
+        statusSelect.style.borderRadius = "6px";
+
+        const statuses = [
+          "Pending",
+          "Accepted",
+          "In Progress",
+          "Completed",
+          "Cancelled"
+        ];
+
+        for (const status of statuses) {
+          const option = document.createElement("option");
+          option.value = status;
+          option.textContent = status;
+          statusSelect.appendChild(option);
+        }
+
+        statusSelect.value = statuses.includes(order.status)
+          ? order.status
+          : "Pending";
+
+        const saveButton = document.createElement("button");
+        saveButton.type = "button";
+        saveButton.textContent = "Save Status";
+        saveButton.style.padding = "9px 14px";
+        saveButton.style.background = "#6b4f3a";
+        saveButton.style.color = "white";
+        saveButton.style.border = "none";
+        saveButton.style.borderRadius = "6px";
+        saveButton.style.cursor = "pointer";
+
+        const statusMessage = document.createElement("p");
+        statusMessage.style.marginTop = "8px";
+
+        statusLabel.htmlFor = `status-${order.id}`;
+        statusSelect.id = `status-${order.id}`;
+
+        saveButton.addEventListener("click", async () => {
+          saveButton.disabled = true;
+          statusMessage.textContent = "Saving...";
+
+          try {
+            const { data: userData, error: userError } =
+              await supabaseClient.auth.getUser();
+
+            if (userError || !userData.user) {
+              throw new Error("Please log in again.");
+            }
+
+            const { data: admin, error: adminError } =
+              await supabaseClient
+                .from("admin_users")
+                .select("user_id")
+                .eq("user_id", userData.user.id)
+                .maybeSingle();
+
+            if (adminError) throw adminError;
+            if (!admin) {
+              throw new Error("Only an admin can update order status.");
+            }
+
+            const { error } = await supabaseClient
+              .from("custom_orders")
+              .update({ status: statusSelect.value })
+              .eq("id", order.id);
+
+            if (error) throw error;
+
+            order.status = statusSelect.value;
+            computeStats();
+            statusMessage.textContent =
+              `Status saved: ${statusSelect.value}`;
+          } catch (error) {
+            console.error("Status update error:", error);
+            statusMessage.textContent =
+              `Could not save: ${error.message}`;
+          } finally {
+            saveButton.disabled = false;
+          }
+        });
+
+        statusSection.appendChild(statusLabel);
+        statusSection.appendChild(statusSelect);
+        statusSection.appendChild(saveButton);
+        statusSection.appendChild(statusMessage);
+        card.appendChild(statusSection);
+
+        ordersContainer.appendChild(card);
+      }
+    }
+
+    /* ===================== ARTWORKS ===================== */
+
+    const artworkForm = document.getElementById("artworkForm");
+    const artworkFormMessage = document.getElementById("artworkFormMessage");
+    const addArtworkBtn = document.getElementById("addArtworkBtn");
+    const artworkCancelBtn = document.getElementById("artworkCancelBtn");
+    const artworkGrid = document.getElementById("artworkGrid");
+
+    const artworkImageFile = document.getElementById("artworkImageFile");
+    const artworkImagePreview =
+      document.getElementById("artworkImagePreview");
+    const artworkImageHint = document.getElementById("artworkImageHint");
+
+    function resetArtworkForm() {
+      artworkForm.reset();
+      document.getElementById("artworkId").value = "";
+      document.getElementById("artworkImageUrl").value = "";
+      artworkFormMessage.textContent = "";
+      artworkImagePreview.style.display = "none";
+      artworkImagePreview.src = "";
+      artworkImageHint.textContent = "Choose a clear photo of the artwork.";
+      artworkImageFile.required = true;
+      document.getElementById("artworkSaveBtn").textContent =
+        "Save Artwork";
+    }
+
+    artworkImageFile.addEventListener("change", () => {
+      const file = artworkImageFile.files[0];
+      if (!file) return;
+
+      artworkImagePreview.src = URL.createObjectURL(file);
+      artworkImagePreview.style.display = "block";
+    });
+
+    addArtworkBtn.addEventListener("click", () => {
+      resetArtworkForm();
+      artworkForm.classList.add("active");
+      artworkForm.scrollIntoView({ behavior: "smooth" });
+    });
+
+    artworkCancelBtn.addEventListener("click", () => {
+      artworkForm.classList.remove("active");
+      resetArtworkForm();
+    });
+
+    async function loadArtworks() {
+      artworkGrid.replaceChildren();
+
+      const { data: artworks, error } = await supabaseClient
+        .from("artworks")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        artworkGrid.innerHTML =
+          '<p class="muted">Could not load artworks.</p>';
+        console.error(error);
+        return;
+      }
+
+      allArtworks = artworks || [];
+      artworksLoaded = true;
+      computeStats();
+
+      if (allArtworks.length === 0) {
+        artworkGrid.innerHTML =
+          '<p class="muted">No artworks yet. Click "Add New Artwork" ' +
+          'to create one.</p>';
+        return;
+      }
+
+      for (const art of allArtworks) {
+        const card = document.createElement("article");
+        card.className = "artwork-card";
+
+        const img = document.createElement("img");
+        img.src = art.image_url;
+        img.alt = art.name;
+        card.appendChild(img);
+
+        const body = document.createElement("div");
+        body.className = "artwork-body";
+
+        const title = document.createElement("h3");
+        title.textContent = art.name;
+        body.appendChild(title);
+
+        const category = document.createElement("p");
+        category.className = "muted";
+        category.textContent = art.category;
+        body.appendChild(category);
+
+        const price = document.createElement("p");
+        price.className = "artwork-price";
+        price.textContent = "₹" + Number(art.price).toLocaleString("en-IN");
+        body.appendChild(price);
+
+        const actions = document.createElement("div");
+        actions.className = "artwork-actions";
+
+        const editBtn = document.createElement("button");
+        editBtn.className = "edit-btn";
+        editBtn.type = "button";
+        editBtn.textContent = "Edit";
+        editBtn.addEventListener("click", () => {
+          document.getElementById("artworkId").value = art.id;
+          document.getElementById("artworkName").value = art.name;
+          document.getElementById("artworkDescription").value =
+            art.description || "";
+          document.getElementById("artworkPrice").value = art.price;
+          document.getElementById("artworkCategory").value = art.category;
+          document.getElementById("artworkImageUrl").value = art.image_url;
+          artworkImagePreview.src = art.image_url;
+          artworkImagePreview.style.display = "block";
+          artworkImageHint.textContent =
+            "Current photo shown below. Choose a new one only if you " +
+            "want to replace it.";
+          artworkImageFile.required = false;
+          document.getElementById("artworkSaveBtn").textContent =
+            "Update Artwork";
+          artworkForm.classList.add("active");
+          artworkForm.scrollIntoView({ behavior: "smooth" });
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.type = "button";
+        deleteBtn.textContent = "Delete";
+        deleteBtn.addEventListener("click", async () => {
+          if (!confirm(`Delete "${art.name}"? This cannot be undone.`)) {
+            return;
+          }
+
+          const { error } = await supabaseClient
+            .from("artworks")
+            .delete()
+            .eq("id", art.id);
+
+          if (error) {
+            alert("Could not delete: " + error.message);
+            return;
+          }
+
+          await loadArtworks();
+        });
+
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+        body.appendChild(actions);
+
+        card.appendChild(body);
+        artworkGrid.appendChild(card);
+      }
+    }
+
+    artworkForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const saveBtn = document.getElementById("artworkSaveBtn");
+      saveBtn.disabled = true;
+      artworkFormMessage.style.color = "#9a3412";
+      artworkFormMessage.textContent = "Saving...";
+
+      const id = document.getElementById("artworkId").value;
+      const file = artworkImageFile.files[0];
+
+      try {
+        let imageUrl = document.getElementById("artworkImageUrl").value;
+
+        if (file) {
+          artworkFormMessage.textContent = "Uploading photo...";
+
+          const { data: { user } } = await supabaseClient.auth.getUser();
+
+          const extMatch = file.name.match(/\.[a-zA-Z0-9]+$/);
+          const safeExt = extMatch ? extMatch[0].toLowerCase() : ".jpg";
+          const filePath =
+            (user?.id || "admin") + "/" + Date.now() + safeExt;
+
+          const { error: uploadError } = await supabaseClient.storage
+            .from("artwork-images")
+            .upload(filePath, file);
+
+          if (uploadError) throw uploadError;
+
+          const { data: publicUrlData } = supabaseClient.storage
+            .from("artwork-images")
+            .getPublicUrl(filePath);
+
+          imageUrl = publicUrlData.publicUrl;
+        }
+
+        if (!imageUrl) {
+          throw new Error("Please choose a photo for this artwork.");
+        }
+
+        artworkFormMessage.textContent = "Saving...";
+
+        const payload = {
+          name: document.getElementById("artworkName").value.trim(),
+          description:
+            document.getElementById("artworkDescription").value.trim(),
+          price: Number(document.getElementById("artworkPrice").value),
+          category: document.getElementById("artworkCategory").value,
+          image_url: imageUrl
+        };
+
+        let error;
+
+        if (id) {
+          ({ error } = await supabaseClient
+            .from("artworks")
+            .update(payload)
+            .eq("id", id));
+        } else {
+          ({ error } = await supabaseClient
+            .from("artworks")
+            .insert(payload));
+        }
+
+        if (error) throw error;
+
+        artworkFormMessage.style.color = "green";
+        artworkFormMessage.textContent = "Saved!";
+
+        await loadArtworks();
+
+        setTimeout(() => {
+          artworkForm.classList.remove("active");
+          resetArtworkForm();
+        }, 600);
+      } catch (error) {
+        console.error("Artwork save error:", error);
+        artworkFormMessage.style.color = "red";
+        artworkFormMessage.textContent =
+          "Could not save: " + error.message;
+      } finally {
+        saveBtn.disabled = false;
+      }
+    });
+
+    /* ===================== PRODUCT ORDERS ===================== */
+
+    const productOrdersContainer =
+      document.getElementById("productOrders");
+
+    async function loadProductOrders() {
+      productOrdersContainer.replaceChildren();
+
+      const { data: orders, error } = await supabaseClient
+        .from("artwork_orders")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        productOrdersContainer.innerHTML =
+          '<p class="muted">Could not load product orders.</p>';
+        console.error(error);
+        return;
+      }
+
+      allProductOrders = orders || [];
+      productOrdersLoaded = true;
+      computeStats();
+
+      if (allProductOrders.length === 0) {
+        productOrdersContainer.innerHTML =
+          '<p class="muted">No product orders yet.</p>';
+        return;
+      }
+
+      for (const order of allProductOrders) {
+        const card = document.createElement("article");
+        card.className = "order";
+
+        const heading = document.createElement("h2");
+        heading.textContent = `Order #${order.id} — ${order.artwork_name}`;
+        card.appendChild(heading);
+
+        const details = [
+          ["Buyer", order.buyer_name],
+          ["Email", order.email],
+          ["Phone", order.phone],
+          ["Address", order.address],
+          ["Price", "₹" + Number(order.price).toLocaleString("en-IN")],
+          ["Ordered", order.created_at
+            ? new Date(order.created_at).toLocaleString()
+            : null]
+        ];
+
+        for (const [label, value] of details) {
+          if (value === null || value === undefined || value === "") {
+            continue;
+          }
+
+          const p = document.createElement("p");
+          const strong = document.createElement("strong");
+          strong.textContent = `${label}: `;
+          p.appendChild(strong);
+          p.appendChild(document.createTextNode(String(value)));
+          card.appendChild(p);
+        }
+
+        if (order.payment_screenshot_path) {
+          const imageButton = document.createElement("button");
+          imageButton.type = "button";
+          imageButton.textContent = "View Payment Screenshot";
+
+          const image = document.createElement("img");
+          image.className = "reference";
+          image.alt = `Payment screenshot for order ${order.id}`;
+          image.loading = "lazy";
+          image.style.display = "none";
+
+          imageButton.addEventListener("click", async () => {
+            if (image.style.display === "none") {
+              if (!image.src) {
+                const { data: signed, error: imageError } =
+                  await supabaseClient.storage
+                    .from("payment-screenshots")
+                    .createSignedUrl(
+                      order.payment_screenshot_path,
+                      300
+                    );
+
+                if (imageError || !signed?.signedUrl) {
+                  alert("Screenshot could not be loaded.");
+                  console.error(imageError);
+                  return;
+                }
+
+                image.src = signed.signedUrl;
+              }
+
+              image.style.display = "block";
+              imageButton.textContent = "Hide Payment Screenshot";
+            } else {
+              image.style.display = "none";
+              imageButton.textContent = "View Payment Screenshot";
+            }
+          });
+
+          card.appendChild(imageButton);
+          card.appendChild(image);
+        }
+
+        const statusSection = document.createElement("div");
+        statusSection.style.marginTop = "16px";
+        statusSection.style.padding = "12px";
+        statusSection.style.borderTop = "1px solid #ddd";
+
+        const statusLabel = document.createElement("label");
+        statusLabel.textContent = "Order Status: ";
+        statusLabel.style.fontWeight = "bold";
+
+        const statusSelect = document.createElement("select");
+        statusSelect.style.padding = "8px";
+        statusSelect.style.margin = "8px";
+        statusSelect.style.borderRadius = "6px";
+
+        const statuses = [
+          "Payment Pending",
+          "Payment Verified",
+          "Shipped",
+          "Delivered",
+          "Cancelled"
+        ];
+
+        for (const status of statuses) {
+          const option = document.createElement("option");
+          option.value = status;
+          option.textContent = status;
+          statusSelect.appendChild(option);
+        }
+
+        statusSelect.value = statuses.includes(order.status)
+          ? order.status
+          : "Payment Pending";
+
+        const saveButton = document.createElement("button");
+        saveButton.type = "button";
+        saveButton.textContent = "Save Status";
+        saveButton.style.padding = "9px 14px";
+        saveButton.style.background = "#6b4f3a";
+        saveButton.style.color = "white";
+        saveButton.style.border = "none";
+        saveButton.style.borderRadius = "6px";
+        saveButton.style.cursor = "pointer";
+
+        const statusMessage = document.createElement("p");
+        statusMessage.style.marginTop = "8px";
+
+        saveButton.addEventListener("click", async () => {
+          saveButton.disabled = true;
+          statusMessage.textContent = "Saving...";
+
+          try {
+            const { error } = await supabaseClient
+              .from("artwork_orders")
+              .update({ status: statusSelect.value })
+              .eq("id", order.id);
+
+            if (error) throw error;
+
+            order.status = statusSelect.value;
+            computeStats();
+            statusMessage.textContent =
+              `Status saved: ${statusSelect.value}`;
+          } catch (error) {
+            console.error("Status update error:", error);
+            statusMessage.textContent =
+              `Could not save: ${error.message}`;
+          } finally {
+            saveButton.disabled = false;
+          }
+        });
+
+        statusSection.appendChild(statusLabel);
+        statusSection.appendChild(statusSelect);
+        statusSection.appendChild(saveButton);
+        statusSection.appendChild(statusMessage);
+        card.appendChild(statusSection);
+
+        productOrdersContainer.appendChild(card);
+      }
+    }
+
+    document.getElementById("logoutButton").addEventListener(
+      "click",
+      async () => {
+        const { error } = await supabaseClient.auth.signOut();
+
+        if (error) {
+          message.textContent = "Could not log out. Please try again.";
+          return;
+        }
+
+        window.location.assign("./login.html");
+      }
+    );
+
+    startDashboard();
+  </script>
+</body>
+</html>

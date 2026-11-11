@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | The Artistic Sukoon</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fffaf5;
+            color: #393331;
+            line-height: 1.7;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            padding: 20px 8%;
+            background: white;
+            box-shadow: 0 2px 10px #00000010;
+        }
+
+        header h2 {
+            color: #b76e79;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #393331;
+            margin-left: 14px;
+        }
+
+        .hero {
+            background: #f5e2dc;
+            text-align: center;
+            padding: 65px 20px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            max-width: 650px;
+            margin: auto;
+        }
+
+        .content {
+            max-width: 1000px;
+            margin: auto;
+            padding: 45px 20px;
+        }
+
+        .story {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .story h2,
+        .values h2 {
+            color: #b76e79;
+            margin-bottom: 15px;
+        }
+
+        .story p {
+            max-width: 750px;
+            margin: auto;
+        }
+
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+            margin-top: 25px;
+        }
+
+        .value-card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px #0000000d;
+            text-align: center;
+        }
+
+        .value-card .emoji {
+            font-size: 35px;
+        }
+
+        .value-card h3 {
+            margin: 10px 0;
+        }
+
+        .cta {
+            text-align: center;
+            background: #f5e2dc;
+            padding: 40px 20px;
+        }
+
+        .cta a {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 12px 24px;
+            background: #b76e79;
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+        }
+.email-enquiry {
+    text-align: center;
+    padding: 35px 20px;
+    background: #fffdf9;
+}
+
+.email-enquiry h2 {
+    color: #b85c65;
+    margin-bottom: 12px;
+}
+
+.email-enquiry p {
+    color: #555;
+    margin-bottom: 18px;
+}
+
+.email-enquiry a {
+    color: #087f6c;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+.email-enquiry a:hover {
+    text-decoration: underline;
+}
+        footer {
+            background: #393331;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            nav a {
+                margin-left: 7px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>The Artistic Sukoon</h2>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Marketplace</a>
+        <a href="courses.html">Courses</a>
+        <a href="custom order.html">Custom Order</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>About The Artistic Sukoon</h1>
+    <p>A place where creativity meets calm, and every artwork tells a story.</p>
+</section>
+
+<main class="content">
+    <section class="story">
+        <h2>Our Story 🎨</h2>
+        <p>
+            The Artistic Sukoon is a creative space for art lovers,
+            learners and artists. Our goal is to make art more accessible
+            by bringing artworks, drawing lessons and custom creations
+            together in one place.
+        </p>
+        <p>
+            Whether you are beginning your artistic journey or looking
+            for a meaningful handmade creation, we want to inspire you
+            to explore your creativity.
+        </p>
+    </section>
+
+    <section class="values">
+        <h2 style="text-align:center;">What We Believe In</h2>
+
+        <div class="value-grid">
+            <div class="value-card">
+                <div class="emoji">🖌️</div>
+                <h3>Creativity</h3>
+                <p>Every person has the ability to explore and express creativity.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="emoji">💖</div>
+                <h3>Passion</h3>
+                <p>We celebrate the time, care and passion behind every artwork.</p>
+            </div>
+
+            <div class="value-card">
+                <div class="emoji">🌱</div>
+                <h3>Learning</h3>
+                <p>We encourage beginners to learn, practise and grow step by step.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<section class="cta">
+    <h2>Ready to Explore Your Creativity?</h2>
+    <p>Discover artworks or begin learning something new.</p>
+    <a href="shop.html">Explore Artworks</a>
+    <a href="courses.html">Explore Courses</a>
+</section>
+<section class="email-enquiry">
+    <h2>Have Any Questions? 💌</h2>
+
+    <p>
+        For any enquiry, artwork details or collaboration,
+        feel free to contact us.
+    </p>
+
+    <a href="https://mail.google.com/mail/?view=cm&fs=1&to=theartisticsukoon%40gmail.com&su=Website%20Enquiry"
+   target="_blank">
+    📧 theartisticsukoon@gmail.com
+</a>
+</section>
+<footer>
+    <p>© 2026 The Artistic Sukoon | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>

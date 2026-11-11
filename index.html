@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>The Artistic Sukoon</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #fffdf9;
+            color: #123c3a;
+        }
+
+        /* ---------- NAVBAR ---------- */
+
+        nav {
+            height: 75px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #075e54;
+        }
+
+        .logo span {
+            display: block;
+            font-size: 12px;
+            color: #777;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #123c3a;
+            font-weight: 500;
+        }
+
+        nav ul li a:hover {
+            color: #07866f;
+        }
+
+        .nav-buttons button {
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        .login {
+            background: white;
+            border: 1px solid #075e54;
+            color: #075e54;
+        }
+
+        .signup {
+            background: #075e54;
+            border: none;
+            color: white;
+        }
+
+
+        /* ---------- HERO ---------- */
+
+        .hero {
+            min-height: 480px;
+            padding: 70px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: linear-gradient(
+                100deg,
+                #f7eee2,
+                #fffdf9
+            );
+        }
+
+        .hero-text {
+            width: 48%;
+        }
+
+        .hero-text small {
+            font-size: 16px;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        .hero-text h1 {
+            font-size: 55px;
+            margin: 15px 0;
+            color: #075e54;
+            font-family: Georgia, serif;
+        }
+
+        .hero-text h2 {
+            font-size: 23px;
+            margin-bottom: 15px;
+        }
+
+        .hero-text p {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #555;
+            max-width: 550px;
+        }
+
+        .hero-buttons {
+            margin-top: 30px;
+        }
+
+        .hero-buttons button {
+            padding: 14px 25px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            margin-right: 10px;
+            font-size: 15px;
+        }
+
+        .explore {
+            background: #087f6c;
+            color: white;
+        }
+
+        .learn {
+            background: white;
+            border: 1px solid #087f6c !important;
+            color: #087f6c;
+        }
+
+        .hero-image {
+            width: 46%;
+        }
+
+        .hero-image img {
+            width: 100%;
+            border-radius: 20px;
+        }
+
+
+        /* ---------- SECTION ---------- */
+
+        .section {
+            padding: 55px 7%;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title h2 {
+            font-size: 27px;
+        }
+
+        .view {
+            color: #087f6c;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+
+        /* ---------- CATEGORIES ---------- */
+
+        .categories {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 18px;
+        }
+
+        a.category {
+            padding: 30px 10px;
+            text-align: center;
+            border-radius: 12px;
+            background: #f4eee5;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+        }
+
+        .category .icon {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        .category h3 {
+            font-size: 15px;
+        }
+
+
+        /* ---------- ARTWORKS ---------- */
+
+        .artworks {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+        }
+
+        .art-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: 0.3s;
+        }
+
+        .art-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .art-card img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+        }
+
+        .art-info {
+            padding: 15px;
+        }
+
+        .art-info h3 {
+            margin-bottom: 8px;
+        }
+
+        .artist {
+            color: #777;
+            font-size: 14px;
+        }
+
+        .price {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #087f6c;
+        }
+
+
+        /* ---------- COURSES ---------- */
+
+        .courses-section {
+            background: #eef7f2;
+        }
+
+        .courses {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .course {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .course img {
+            width: 110px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .course h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .course p {
+            color: #777;
+            font-size: 14px;
+        }
+
+
+        /* ---------- CUSTOM ORDER ---------- */
+
+        .custom {
+            padding: 60px 7%;
+            text-align: center;
+            background: #f8eee3;
+        }
+
+        .custom h2 {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .custom p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .custom button {
+            background: #087f6c;
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+
+
+        /* ---------- FOOTER ---------- */
+
+        footer {
+            background: #063f3b;
+            color: white;
+            padding: 45px 7%;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .footer-logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        footer p {
+            color: #cbd8d6;
+            margin-top: 10px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #47706c;
+            color: #cbd8d6;
+        }
+
+
+        /* ---------- MOBILE ---------- */
+
+        @media(max-width: 900px) {
+
+            nav ul {
+                display: none;
+            }
+
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                gap: 40px;
+            }
+
+            .hero-text,
+            .hero-image {
+                width: 100%;
+            }
+
+            .categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .artworks {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .courses {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+
+            .hero-text h1 {
+                font-size: 40px;
+            }
+
+            .artworks {
+                grid-template-columns: 1fr;
+            }
+
+            .categories {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .nav-buttons {
+                display: none;
+            }
+        }
+
+/* ---------- CUSTOMER DASHBOARD LAYOUT ---------- */
+
+.customer-layout {
+    display: none;
+    grid-template-columns: minmax(0, 1fr) 270px;
+    gap: 25px;
+    padding: 30px 7%;
+    align-items: start;
+}
+
+.customer-sidebar {
+    background: #ffffff;
+    border: 1px solid #e5eee9;
+    border-radius: 16px;
+    padding: 22px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    position: sticky;
+    top: 20px;
+}
+
+.customer-sidebar h2 {
+    color: #075e54;
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.customer-sidebar .welcome-text {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 22px;
+    overflow-wrap: anywhere;
+}
+
+.dashboard-link {
+    display: block;
+    padding: 12px;
+    margin-top: 8px;
+    border-radius: 9px;
+    color: #123c3a;
+    text-decoration: none;
+    background: #f5f7f3;
+}
+
+.dashboard-link:hover {
+    background: #e4f2eb;
+    color: #075e54;
+}
+
+.customer-main {
+    min-width: 0;
+}
+
+.customer-main h2 {
+    color: #075e54;
+    margin-bottom: 12px;
+}
+
+/* ---------- ADMIN NOTICE (shown instead of customer dashboard) ---------- */
+
+.admin-notice {
+    display: none;
+    margin: 30px 7% 0;
+    padding: 26px;
+    background: #fff3d9;
+    border: 1px solid #e9c98a;
+    border-radius: 16px;
+}
+
+.admin-notice h2 {
+    color: #6b4f1e;
+    margin-bottom: 8px;
+}
+
+.admin-notice p {
+    color: #6b5a33;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.admin-notice a {
+    display: inline-block;
+    background: #6b4f1e;
+    color: white;
+    text-decoration: none;
+    padding: 11px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+}
+
+/* ---------- COURSE PROGRESS ---------- */
+
+.course-progress-section {
+    margin-top: 30px;
+    padding: 24px;
+    background: #ffffff;
+    border: 1px solid #e5eee9;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.course-progress-section > h2 {
+    color: #075e54;
+    margin-bottom: 8px;
+}
+
+.progress-intro {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.course-progress-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.progress-card {
+    padding: 18px;
+    border: 1px solid #e5eee9;
+    border-radius: 12px;
+    background: #fffdf9;
+}
+
+.progress-card h3 {
+    color: #075e54;
+    margin-bottom: 12px;
+    font-size: 18px;
+}
+
+.progress-card p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.progress-track {
+    width: 100%;
+    height: 10px;
+    margin: 12px 0 8px;
+    background: #e7eee9;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: #087f6c;
+    border-radius: 20px;
+    transition: width 0.3s ease;
+}
+
+.progress-card .progress-percent {
+    color: #075e54;
+    font-weight: bold;
+    margin-bottom: 12px;
+}
+
+.continue-learning {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #087f6c;
+    color: white;
+    text-decoration: none;
+    border-radius: 22px;
+    font-size: 14px;
+}
+
+.continue-learning:hover {
+    background: #075e54;
+}
+
+@media (min-width: 1100px) {
+    .course-progress-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 750px) {
+    .customer-layout {
+        grid-template-columns: 1fr;
+        padding: 20px 5%;
+    }
+
+    .customer-sidebar {
+        position: static;
+    }
+}
+
+    </style>
+</head>
+
+<body>
+
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+
+    <div class="logo">
+        🎨 The Artistic Sukoon
+        <span>Art • Learn • Create • Grow</span>
+    </div>
+
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Marketplace</a></li>
+        <li><a href="courses.html">Courses</a></li>
+        <li><a href="custom order.html">Custom Order</a></li>
+        <li><a href="about.html">About</a></li>
+    </ul>
+
+    
+<div class="nav-buttons">
+    <a href="login.html" class="login"
+       style="display:inline-block; padding:10px 20px;
+       border-radius:25px; text-decoration:none;">
+        Login
+    </a>
+
+    <a href="signup.html" class="signup"
+       style="display:inline-block; padding:10px 20px;
+       border-radius:25px; text-decoration:none;">
+        Sign Up
+    </a>
+</div>
+
+
+</nav>
+
+
+<!-- ADMIN NOTICE (shown only if the logged-in user is an admin) -->
+
+<section class="admin-notice" id="adminNotice">
+    <h2>👋 Welcome back, Admin</h2>
+    <p>
+        You are logged in with an admin account, so the regular
+        customer dashboard is hidden here. Head to the Admin
+        Dashboard to manage orders.
+    </p>
+    <a href="admin.html">Go to Admin Dashboard →</a>
+</section>
+
+
+<!-- CUSTOMER DASHBOARD -->
+
+<section class="customer-layout" id="customerLayout">
+
+    <div class="customer-main">
+        <h2>Welcome to The Artistic Sukoon! 🎨</h2>
+        <p>
+            Explore beautiful artworks, discover courses,
+            and manage your personal art orders.
+        </p>
+        
+<div class="course-progress-section">
+    <h2>🎓 My Learning Progress</h2>
+    <p class="progress-intro">
+        Track your completed lessons and continue learning.
+    </p>
+
+    <p id="courseProgressMessage" role="status">
+        Loading your course progress...
+    </p>
+
+    <div class="course-progress-grid">
+
+        <div class="progress-card">
+            <h3>Basic Drawing</h3>
+            <p id="basicDrawingCount">Completed 0 of 3 lessons</p>
+            <div class="progress-track">
+                <div id="basicDrawingBar" class="progress-fill"></div>
+            </div>
+            <p id="basicDrawingPercent" class="progress-percent">0%</p>
+            <a href="basic-drawing.html" class="continue-learning">
+                Continue Learning →
+            </a>
+        </div>
+
+        <div class="progress-card">
+            <h3>Pencil Sketching</h3>
+            <p id="pencilSketchingCount">Completed 0 of 3 lessons</p>
+            <div class="progress-track">
+                <div id="pencilSketchingBar" class="progress-fill"></div>
+            </div>
+            <p id="pencilSketchingPercent" class="progress-percent">0%</p>
+            <a href="pencil-sketching.html" class="continue-learning">
+                Continue Learning →
+            </a>
+        </div>
+
+        <div class="progress-card">
+            <h3>Painting Course</h3>
+            <p id="paintingCourseCount">Completed 0 of 3 lessons</p>
+            <div class="progress-track">
+                <div id="paintingCourseBar" class="progress-fill"></div>
+            </div>
+            <p id="paintingCoursePercent" class="progress-percent">0%</p>
+            <a href="painting-course.html" class="continue-learning">
+                Continue Learning →
+            </a>
+        </div>
+
+    </div>
+</div>
+
+    </div>
+
+    <aside class="customer-sidebar">
+        <h2>My Dashboard</h2>
+        <p class="welcome-text" id="customerEmail">
+            Welcome, Customer!
+        </p>
+
+        <a href="profile.html" class="dashboard-link">
+            👤 My Profile
+        </a>
+
+        <a href="my-orders.html" class="dashboard-link">
+            📦 My Orders
+        </a>
+
+        <a href="custom order.html" class="dashboard-link">
+            🎨 Custom Orders
+        </a>
+
+        <a href="shop.html" class="dashboard-link">
+            🖼️ Explore Artworks
+        </a>
+
+        <a href="courses.html" class="dashboard-link">
+            🎓 My Courses
+        </a>
+
+        <a href="profile.html" class="dashboard-link">
+            ⚙️ Settings
+        </a>
+    </aside>
+
+</section>
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <div class="hero-text">
+
+        <small>WELCOME TO</small>
+
+        <h1>The Artistic Sukoon</h1>
+
+        <h2>Online Art Marketplace & Drawing Learning Platform</h2>
+
+        <p>
+            Discover beautiful artworks, learn drawing from experts,
+            and bring your creative ideas to life with custom artwork orders.
+        </p>
+
+        
+<div class="hero-buttons">
+    <a href="shop.html" class="explore"
+       style="display:inline-block; padding:14px 25px;
+       border-radius:30px; text-decoration:none;">
+        Explore Artworks →
+    </a>
+
+    <a href="courses.html" class="learn"
+       style="display:inline-block; padding:14px 25px;
+       border-radius:30px; text-decoration:none;">
+        Start Learning
+    </a>
+</div>
+
+
+    </div>
+
+
+    <div class="hero-image">
+
+        <img
+        src="IMG-20260720-WA0003.jpg"
+        alt="Artist drawing">
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= CATEGORIES ================= -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>Explore Our Categories</h2>
+
+        <a href="shop.html" class="view">View All →</a>
+
+    </div>
+
+
+    <div class="categories">
+
+        <a href="shop.html" class="category">
+            <div class="icon">🎨</div>
+            <h3>All Artworks</h3>
+        </a>
+
+        <a href="shop.html?category=paintings" class="category">
+            <div class="icon">🖼️</div>
+            <h3>Paintings</h3>
+        </a>
+
+        <a href="shop.html?category=sketches" class="category">
+            <div class="icon">✏️</div>
+            <h3>Sketches</h3>
+        </a>
+
+        <a href="shop.html?category=digital-art" class="category">
+            <div class="icon">🌿</div>
+            <h3>Digital Art</h3>
+        </a>
+
+        <a href="custom order.html" class="category">
+            <div class="icon">🛍️</div>
+            <h3>Custom Orders</h3>
+        </a>
+
+        <a href="courses.html" class="category">
+            <div class="icon">🎓</div>
+            <h3>Drawing Courses</h3>
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= FEATURED ARTWORKS ================= -->
+
+<section class="section">
+
+    <div class="section-title">
+
+        <h2>Featured Artworks</h2>
+
+        <a href="shop.html" class="view">View All →</a>
+
+    </div>
+
+
+    <div class="artworks" id="featuredArtworks">
+        <p style="color:#777;">Loading artworks...</p>
+    </div>
+
+</section>
+
+
+
+<!-- ================= COURSES ================= -->
+
+<section class="section courses-section">
+
+    <div class="section-title">
+
+        <div>
+            <h2>Popular Drawing Courses</h2>
+            <p>Learn at your own pace with expert guidance.</p>
+        </div>
+
+        <a href="courses.html" class="view">View All Courses →</a>
+
+    </div>
+
+
+    <div class="courses">
+
+        <a href="basic-drawing.html" class="course" style="text-decoration:none;color:inherit;">
+
+            <img src="https://placehold.co/400x300/f5e1da/59433e?text=Basic+Drawing">
+
+            <div>
+                <h3>Basic Drawing</h3>
+                <p>3 Lessons • Beginner</p>
+            </div>
+
+        </a>
+
+
+        <a href="pencil-sketching.html" class="course" style="text-decoration:none;color:inherit;">
+
+            <img src="https://placehold.co/400x300/e9dff5/59433e?text=Pencil+Sketching">
+
+            <div>
+                <h3>Pencil Sketching</h3>
+                <p>3 Lessons • Beginner</p>
+            </div>
+
+        </a>
+
+
+        <a href="painting-course.html" class="course" style="text-decoration:none;color:inherit;">
+
+            <img src="https://placehold.co/400x300/dceee4/59433e?text=Painting">
+
+            <div>
+                <h3>Painting for Beginners</h3>
+                <p>3 Lessons • Beginner</p>
+            </div>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= CUSTOM ORDER ================= -->
+
+<section class="custom">
+
+    <h2>Have an Idea? Make It Real! 🎨</h2>
+
+    <p>
+        Request a custom artwork according to your requirements.
+    </p>
+
+    <a href="custom order.html"
+   style="display:inline-block; background:#087f6c; color:white;
+   padding:14px 28px; border-radius:25px; text-decoration:none;">
+    Place Custom Order →
+</a>
+
+</section>
+
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div class="footer-content">
+
+        <div>
+
+            <div class="footer-logo">
+                🎨 The Artistic Sukoon
+            </div>
+
+            <p>Art • Learn • Create • Grow</p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="index.html">Home</a>
+            <a href="shop.html">Marketplace</a>
+            <a href="courses.html">Courses</a>
+            <a href="custom order.html">Custom Order</a>
+            <a href="about.html">Contact</a>
+
+        </div>
+
+    </div>
+
+
+    <div class="copyright">
+
+        © 2026 The Artistic Sukoon. All Rights Reserved.
+
+    </div>
+
+</footer>
+
+
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const supabaseClient = window.supabase.createClient(
+    "https://lggdeyewxrqpzgqemrmr.supabase.co",
+    "sb_publishable_etpSTvH7sSkyGPd1qQqbbQ_WvSlvNSr"
+);
+
+let isAdminUser = false;
+
+async function checkAdmin(user) {
+    const { data: admin, error } = await supabaseClient
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+
+    return !error && !!admin;
+}
+
+async function updateNavbar() {
+    const { data: { user }, error } =
+        await supabaseClient.auth.getUser();
+
+    const navButtons = document.querySelector(".nav-buttons");
+
+    if (error || !user || !navButtons) {
+        return;
+    }
+
+    navButtons.innerHTML = `
+        <a href="profile.html"
+           style="display:inline-block;padding:10px 18px;
+           border-radius:25px;text-decoration:none;
+           background:#075e54;color:white;">
+           My Dashboard
+        </a>
+
+        <button id="logoutBtn"
+           style="background:white;border:1px solid #075e54;
+           color:#075e54;">
+           Logout
+        </button>
+    `;
+
+    document.getElementById("logoutBtn").addEventListener(
+        "click",
+        async () => {
+            const { error } = await supabaseClient.auth.signOut();
+
+            if (!error) {
+                window.location.href = "login.html";
+            } else {
+                alert("Logout nahi ho paya. Dobara try karein.");
+            }
+        }
+    );
+}
+
+async function updateCustomerDashboard() {
+    const { data: { user }, error } =
+        await supabaseClient.auth.getUser();
+
+    const dashboard = document.getElementById("customerLayout");
+    const adminNotice = document.getElementById("adminNotice");
+
+    if (!dashboard) return;
+
+    if (error || !user) {
+        dashboard.style.display = "none";
+        adminNotice.style.display = "none";
+        return;
+    }
+
+    isAdminUser = await checkAdmin(user);
+
+    if (isAdminUser) {
+        // Admin is logged in: hide the customer dashboard,
+        // show a short notice pointing to the admin panel instead.
+        dashboard.style.display = "none";
+        adminNotice.style.display = "block";
+        return;
+    }
+
+    adminNotice.style.display = "none";
+    dashboard.style.display = "grid";
+
+    const emailElement = document.getElementById("customerEmail");
+
+    if (emailElement) {
+        emailElement.textContent =
+            "Welcome, " + (user.email || "Customer") + "!";
+    }
+}
+
+async function loadDashboardCourseProgress() {
+    const message = document.getElementById("courseProgressMessage");
+
+    if (isAdminUser) return;
+
+    const courses = [
+        {
+            slug: "basic-drawing",
+            countId: "basicDrawingCount",
+            barId: "basicDrawingBar",
+            percentId: "basicDrawingPercent"
+        },
+        {
+            slug: "pencil-sketching",
+            countId: "pencilSketchingCount",
+            barId: "pencilSketchingBar",
+            percentId: "pencilSketchingPercent"
+        },
+        {
+            slug: "painting-course",
+            countId: "paintingCourseCount",
+            barId: "paintingCourseBar",
+            percentId: "paintingCoursePercent"
+        }
+    ];
+
+    try {
+        const { data: { user }, error: authError } =
+            await supabaseClient.auth.getUser();
+
+        if (authError) throw authError;
+
+        if (!user) {
+            message.textContent =
+                "Please log in to view your learning progress.";
+            return;
+        }
+
+        const { data, error } = await supabaseClient
+            .from("course_progress")
+            .select("course_slug, lesson_number, completed")
+            .eq("user_id", user.id);
+
+        if (error) throw error;
+
+        courses.forEach(course => {
+            const completed = data.filter(item =>
+                item.course_slug === course.slug &&
+                item.completed === true
+            ).length;
+
+            const total = 3;
+            const percent = Math.round((completed / total) * 100);
+
+            document.getElementById(course.countId).textContent =
+                `Completed ${completed} of ${total} lessons`;
+
+            document.getElementById(course.barId).style.width =
+                `${percent}%`;
+
+            document.getElementById(course.percentId).textContent =
+                `${percent}% completed`;
+        });
+
+        message.textContent = "Your learning progress is up to date.";
+    } catch (error) {
+        console.error("Dashboard course progress error:", error);
+        message.textContent =
+            "Could not load progress. Please refresh the page.";
+    }
+}
+
+async function loadFeaturedArtworks() {
+    const grid = document.getElementById("featuredArtworks");
+
+    const { data: artworks, error } = await supabaseClient
+        .from("artworks")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(4);
+
+    if (error) {
+        grid.innerHTML =
+            '<p style="color:#777;">Artworks load nahi ho paaye.</p>';
+        console.error("Featured artworks error:", error);
+        return;
+    }
+
+    if (!artworks || artworks.length === 0) {
+        grid.innerHTML =
+            '<p style="color:#777;">Abhi koi artwork add nahi hua hai.</p>';
+        return;
+    }
+
+    grid.innerHTML = "";
+
+    for (const art of artworks) {
+        const card = document.createElement("a");
+        card.className = "art-card";
+        card.href = "product.html?id=" + art.id;
+        card.style.textDecoration = "none";
+        card.style.color = "inherit";
+        card.style.display = "block";
+
+        const img = document.createElement("img");
+        img.src = art.image_url;
+        img.alt = art.name;
+        img.loading = "lazy";
+        card.appendChild(img);
+
+        const info = document.createElement("div");
+        info.className = "art-info";
+
+        const title = document.createElement("h3");
+        title.textContent = art.name;
+        info.appendChild(title);
+
+        const price = document.createElement("p");
+        price.className = "price";
+        price.textContent = "₹" + Number(art.price).toLocaleString("en-IN");
+        info.appendChild(price);
+
+        card.appendChild(info);
+        grid.appendChild(card);
+    }
+}
+
+async function init() {
+    await updateCustomerDashboard();
+    await loadDashboardCourseProgress();
+    await updateNavbar();
+    await loadFeaturedArtworks();
+}
+
+init();
+</script>
+
+</html>

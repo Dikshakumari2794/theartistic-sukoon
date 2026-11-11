@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing Courses | The Artistic Sukoon</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #fffaf5;
+            color: #333;
+        }
+
+        header {
+            background: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            box-shadow: 0 2px 10px #00000010;
+        }
+
+        header h2 {
+            color: #b76e79;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #333;
+            margin-left: 15px;
+        }
+
+        .hero {
+            text-align: center;
+            padding: 65px 20px;
+            background: #f7e4df;
+        }
+
+        .hero h1 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .hero p {
+            font-size: 17px;
+            line-height: 1.7;
+        }
+
+        .courses {
+            padding: 45px 8%;
+        }
+
+        .courses h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .course-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 25px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px #00000012;
+            padding-bottom: 22px;
+        }
+
+        .course-card img {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+        }
+
+        .course-card h3,
+        .course-card p,
+        .course-card a {
+            margin: 15px 18px;
+        }
+
+        .course-card p {
+            line-height: 1.6;
+            color: #666;
+        }
+
+        .course-card a {
+            display: inline-block;
+            background: #b76e79;
+            color: white;
+            padding: 11px 18px;
+            border-radius: 25px;
+            text-decoration: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #333;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>The Artistic Sukoon</h2>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="shop.html">Marketplace</a>
+        <a href="courses.html">Courses</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Learn Art With Us 🎨</h1>
+    <p>
+        Start your creative journey with The Artistic Sukoon.<br>
+        Learn drawing step by step, from beginner to advanced.
+    </p>
+</section>
+
+<section class="courses">
+    <h2>Our Drawing Courses</h2>
+
+    <div class="course-grid">
+
+        <div class="course-card">
+            <img src="https://placehold.co/600x400/f5e1da/59433e?text=Basic+Drawing"
+                 alt="Basic drawing course">
+            <h3>Basic Drawing</h3>
+            <p>Learn shapes, lines, shading and basic drawing techniques.</p>
+            <a href="basic-drawing.html" class="button">Start Learning</a>
+        </div>
+
+        <div class="course-card">
+            <img src="https://placehold.co/600x400/e9dff5/59433e?text=Pencil+Sketching"
+                 alt="Pencil sketching course">
+            <h3>Pencil Sketching</h3>
+            <p>Practice pencil shading, portraits and realistic sketching.</p>
+<a href="pencil-sketching.html" class="button">Start Learning</a>
+        </div>
+
+        <div class="course-card">
+            <img src="https://placehold.co/600x400/dceee4/59433e?text=Painting"
+                 alt="Painting course">
+            <h3>Painting for Beginners</h3>
+            <p>Explore colours, painting techniques and creative ideas.</p>
+<a href="painting-course.html" class="button">Start Learning</a>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 The Artistic Sukoon | All Rights Reserved</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile | The Artistic Sukoon</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #fffdf9;
+      color: #3d3028;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #6b4f3a;
+      color: white;
+      padding: 18px 7%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    header h1 {
+      font-size: 22px;
+    }
+
+    header a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .container {
+  max-width: 700px;
+  margin: 0 auto 40px;
+  padding: 30px;
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px #00000010;
+}
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    .intro {
+      color: #766b62;
+      margin-bottom: 25px;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      margin: 18px 0 7px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #d8cec5;
+      border-radius: 7px;
+      font-size: 16px;
+    }
+
+    input[readonly] {
+      background: #f5f1ed;
+    }
+
+    button {
+      border: none;
+      border-radius: 7px;
+      padding: 12px 18px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    #saveButton {
+      background: #6b4f3a;
+      color: white;
+      width: 100%;
+      margin-top: 22px;
+    }
+
+    #logoutButton {
+      background: white;
+      color: #6b4f3a;
+    }
+
+    #message {
+      margin-top: 16px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 22px 14px;
+        padding: 22px;
+      }
+    }
+
+    /* Customer Dashboard */
+    .dashboard {
+      max-width: 1100px;
+      margin: 35px auto;
+      padding: 0 20px 40px;
+    }
+
+    .dashboard-welcome {
+      margin-bottom: 24px;
+    }
+
+    .dashboard-welcome p {
+      color: #766b62;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .dashboard-card {
+      background:lightgray;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: 0 4px 20px #00000010;
+      border: 1px solid #eee5dc;
+    }
+
+    .dashboard-card h3 {
+      color: #6b4f3a;
+      margin-bottom: 10px;
+    }
+
+    .dashboard-card p {
+      color: #766b62;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .dashboard-card a {
+      display: inline-block;
+      color: #6b4f3a;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .dashboard-card a:hover {
+      text-decoration: underline;
+    }
+
+    .profile-container {
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+
+    @media (max-width: 750px) {
+      .dashboard-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 500px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard {
+        margin-top: 24px;
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>The Artistic Sukoon</h1>
+    <a href="index.html">Home</a>
+    <button id="logoutButton" type="button">Logout</button>
+  </header>
+
+  <section class="dashboard">
+    <div class="dashboard-welcome">
+      <h2>My Dashboard</h2>
+      <p id="dashboardWelcome">
+  Welcome to The Artistic Sukoon! Manage your profile, artwork orders and courses from here.
+</p>
+    </div>
+
+    <div class="dashboard-grid">
+      <article class="dashboard-card">
+        <h3>My Profile</h3>
+        <p>View and update your personal information.</p>
+        <a href="#profileForm">Edit Profile →</a>
+      </article>
+
+      <article class="dashboard-card">
+        <h3>My Order Summary</h3>
+        <p id="orderSummary">Loading your orders...</p>
+        <a href="my-orders.html">View All Orders →</a>
+      </article>
+
+      <article class="dashboard-card">
+        <h3>My Orders</h3>
+        <p>Check your custom orders and marketplace purchases, with status and screenshots.</p>
+        <a href="my-orders.html">View My Orders →</a>
+      </article>
+
+      <article class="dashboard-card">
+        <h3>My Courses</h3>
+        <p>Explore drawing and painting courses and continue learning.</p>
+        <a href="courses.html">Explore Courses →</a>
+      </article>
+
+      <article class="dashboard-card">
+        <h3>My Learning Progress</h3>
+        <p id="courseProgressSummary">Loading your course progress...</p>
+        <a href="courses.html">Continue Learning →</a>
+      </article>
+
+      <article class="dashboard-card">
+        <h3>Shop Artwork</h3>
+        <p>Browse available artworks and discover something you love.</p>
+        <a href="shop.html">Visit Shop →</a>
+      </article>
+
+      <article class="dashboard-card">
+        <h3>Custom Order</h3>
+        <p>Request a personalized artwork made for you.</p>
+        <a href="custom order.html">Create Custom Order →</a>
+      </article>
+
+      <article class="dashboard-card">
+        <h3>Home</h3>
+        <p>Return to The Artistic Sukoon homepage.</p>
+        <a href="index.html">Go to Home →</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="dashboard" id="recentOrdersSection">
+    <div class="dashboard-welcome">
+      <h2>Recent Orders</h2>
+      <p>Your latest orders (custom and marketplace) at a glance.</p>
+    </div>
+
+    <div class="dashboard-card">
+      <p id="recentOrdersMessage">Recent orders will appear here.</p>
+      <a href="my-orders.html">View All Orders →</a>
+    </div>
+  </section>
+
+<main class="container profile-container" id="profileForm">
+  <h2>My Profile Details</h2>
+
+    <p class="intro">
+      View and update your personal information.
+    </p>
+
+    <form id="profileForm">
+      <label for="fullName">Full Name</label>
+      <input
+        type="text"
+        id="fullName"
+        maxlength="100"
+        autocomplete="name"
+        placeholder="Enter your full name"
+      >
+
+      <label for="email">Email Address</label>
+      <input
+        type="email"
+        id="email"
+        readonly
+      >
+
+      <label for="phone">Phone Number</label>
+      <input
+        type="tel"
+        id="phone"
+        maxlength="20"
+        autocomplete="tel"
+        placeholder="Enter your phone number"
+      >
+
+      <button id="saveButton" type="submit">
+        Save Profile
+      </button>
+
+      <p id="message" role="status" aria-live="polite"></p>
+    </form>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const supabaseClient = window.supabase.createClient(
+      "https://lggdeyewxrqpzgqemrmr.supabase.co",
+      "sb_publishable_etpSTvH7sSkyGPd1qQqbbQ_WvSlvNSr"
+    );
+
+    const profileForm = document.getElementById("profileForm");
+    const fullNameInput = document.getElementById("fullName");
+    const emailInput = document.getElementById("email");
+    const phoneInput = document.getElementById("phone");
+    const message = document.getElementById("message");
+    const saveButton = document.getElementById("saveButton");
+    const dashboardWelcome = document.getElementById("dashboardWelcome");
+    const courseProgressSummary = document.getElementById("courseProgressSummary");
+    const orderSummary = document.getElementById("orderSummary");
+    const recentOrdersMessage =
+  document.getElementById("recentOrdersMessage");
+
+    let currentUser = null;
+
+async function loadCourseProgress() {
+  courseProgressSummary.textContent = "Loading your course progress...";
+
+  try {
+    const { data: authData, error: authError } =
+      await supabaseClient.auth.getUser();
+
+    if (authError || !authData.user) {
+      courseProgressSummary.textContent = "Please log in to view progress.";
+      return;
+    }
+
+    const { data, error } = await supabaseClient
+      .from("course_progress")
+      .select("course_slug, lesson_number, completed")
+      .eq("user_id", authData.user.id)
+      .eq("completed", true);
+
+    if (error) throw error;
+
+    const completedLessons = data.length;
+    const courseCount = new Set(data.map(item => item.course_slug)).size;
+
+    courseProgressSummary.textContent =
+      `${completedLessons} completed lesson(s) across ${courseCount} course(s).`;
+  } catch (error) {
+    console.error("Course progress error:", error);
+    courseProgressSummary.textContent =
+      "Could not load course progress right now.";
+  }
+}
+
+async function loadOrderSummary() {
+  orderSummary.textContent = "Loading your orders...";
+
+  try {
+    const { data: authData, error: authError } =
+      await supabaseClient.auth.getUser();
+
+    if (authError || !authData.user) {
+      orderSummary.textContent = "Please log in to view your orders.";
+      return;
+    }
+
+    const user = authData.user;
+
+    const [customResult, productResult] = await Promise.all([
+      supabaseClient
+        .from("custom_orders")
+        .select("id")
+        .ilike("email", user.email.trim()),
+      supabaseClient
+        .from("artwork_orders")
+        .select("id")
+        .eq("buyer_id", user.id)
+    ]);
+
+    if (customResult.error) throw customResult.error;
+    if (productResult.error) throw productResult.error;
+
+    const customCount = customResult.data.length;
+    const productCount = productResult.data.length;
+    const totalOrders = customCount + productCount;
+
+    orderSummary.textContent =
+      `Total Orders: ${totalOrders} ` +
+      `(Custom: ${customCount}, Marketplace: ${productCount})`;
+
+  } catch (error) {
+    console.error("Order summary error:", error);
+    orderSummary.textContent =
+      "Could not load order summary right now.";
+  }
+}
+
+async function loadRecentOrders() {
+  recentOrdersMessage.textContent = "Loading recent orders...";
+
+  try {
+    const { data: authData, error: authError } =
+      await supabaseClient.auth.getUser();
+
+    if (authError || !authData.user) {
+      recentOrdersMessage.textContent = "Please log in to view your orders.";
+      return;
+    }
+
+    const user = authData.user;
+
+    const [customResult, productResult] = await Promise.all([
+      supabaseClient
+        .from("custom_orders")
+        .select("id, art_type, status, created_at")
+        .ilike("email", user.email.trim())
+        .order("created_at", { ascending: false })
+        .limit(3),
+      supabaseClient
+        .from("artwork_orders")
+        .select("id, artwork_name, status, created_at")
+        .eq("buyer_id", user.id)
+        .order("created_at", { ascending: false })
+        .limit(3)
+    ]);
+
+    if (customResult.error) throw customResult.error;
+    if (productResult.error) throw productResult.error;
+
+    const combined = [
+      ...customResult.data.map(o => ({
+        id: o.id,
+        title: o.art_type || "Custom Artwork",
+        type: "Custom Order",
+        status: o.status,
+        created_at: o.created_at
+      })),
+      ...productResult.data.map(o => ({
+        id: o.id,
+        title: o.artwork_name || "Artwork",
+        type: "Marketplace Order",
+        status: o.status,
+        created_at: o.created_at
+      }))
+    ]
+      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+      .slice(0, 3);
+
+    if (combined.length === 0) {
+      recentOrdersMessage.textContent = "You have no orders yet.";
+      return;
+    }
+
+    recentOrdersMessage.textContent = "";
+
+    combined.forEach(order => {
+      const item = document.createElement("div");
+      item.style.borderTop = "1px solid #eee5dc";
+      item.style.padding = "14px 0";
+
+      const title = document.createElement("h4");
+      title.textContent = order.title + " (" + order.type + ")";
+
+      const details = document.createElement("p");
+      details.style.margin = "8px 0";
+      details.textContent =
+        `Order ID: ${order.id} | Status: ${order.status || "Pending"}`;
+
+      const date = document.createElement("p");
+      date.style.color = "#766b62";
+      date.style.fontSize = "14px";
+
+      const parsedDate = new Date(order.created_at);
+      date.textContent = Number.isNaN(parsedDate.getTime())
+        ? ""
+        : `Date: ${parsedDate.toLocaleDateString()}`;
+
+      item.appendChild(title);
+      item.appendChild(details);
+      item.appendChild(date);
+      recentOrdersMessage.appendChild(item);
+    });
+  } catch (error) {
+    console.error("Recent orders error:", error);
+    recentOrdersMessage.textContent =
+      "Could not load recent orders right now.";
+  }
+}
+
+    async function loadProfile() {
+      saveButton.disabled = true;
+      message.textContent = "Loading profile...";
+
+      try {
+        const { data: authData, error: authError } =
+          await supabaseClient.auth.getUser();
+
+        if (authError || !authData.user) {
+          window.location.replace("login.html");
+          return;
+        }
+
+        currentUser = authData.user;
+        emailInput.value = currentUser.email || "";
+
+        const { data: profile, error } = await supabaseClient
+          .from("profiles")
+          .select("full_name, phone")
+          .eq("id", currentUser.id)
+          .maybeSingle();
+
+        if (error) throw error;
+
+        if (profile) {
+  fullNameInput.value = profile.full_name || "";
+  phoneInput.value = profile.phone || "";
+}
+
+const customerName = profile?.full_name?.trim();
+
+dashboardWelcome.textContent = customerName
+  ? `Welcome, ${customerName}! Manage your profile, artwork orders and courses from here.`
+  : "Welcome to The Artistic Sukoon! Complete your profile to personalize your dashboard.";
+        message.textContent = "Profile loaded.";
+      } catch (error) {
+        console.error(error);
+        message.textContent =
+          "Could not load profile: " + error.message;
+      } finally {
+        saveButton.disabled = false;
+      }
+    }
+
+    profileForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      if (!currentUser) {
+        message.textContent = "Please log in again.";
+        return;
+      }
+
+      const fullName = fullNameInput.value.trim();
+      const phone = phoneInput.value.trim();
+
+      if (!fullName) {
+        message.textContent = "Please enter your full name.";
+        fullNameInput.focus();
+        return;
+      }
+
+      saveButton.disabled = true;
+      message.textContent = "Saving profile...";
+
+      try {
+        const { data: authData, error: authError } =
+          await supabaseClient.auth.getUser();
+
+        if (authError || !authData.user ||
+            authData.user.id !== currentUser.id) {
+          throw new Error("Your session expired. Please log in again.");
+        }
+
+        const { error } = await supabaseClient
+          .from("profiles")
+          .upsert({
+            id: currentUser.id,
+            full_name: fullName,
+            phone: phone || null,
+            updated_at: new Date().toISOString()
+          }, {
+            onConflict: "id"
+          });
+
+        if (error) throw error;
+
+        message.textContent = "Profile saved successfully!";
+      } catch (error) {
+        console.error(error);
+        message.textContent =
+          "Could not save profile: " + error.message;
+      } finally {
+        saveButton.disabled = false;
+      }
+    });
+
+    document.getElementById("logoutButton")
+      .addEventListener("click", async () => {
+        const { error } = await supabaseClient.auth.signOut();
+
+        if (error) {
+          message.textContent = "Logout failed: " + error.message;
+          return;
+        }
+
+        window.location.href = "login.html";
+      });
+
+    loadProfile();
+    loadCourseProgress();
+    loadOrderSummary();
+    loadRecentOrders();
+  </script>
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artwork Details | The Artistic Sukoon</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #fffaf5;
+            color: #393331;
+        }
+
+        header {
+            background: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        header h2 {
+            color: #b76e79;
+        }
+
+        header a {
+            color: #b76e79;
+            text-decoration: none;
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 20px;
+        }
+
+        .product {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 35px;
+            align-items: start;
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px #00000010;
+        }
+
+        .art-image {
+            width: 100%;
+            min-height: 280px;
+            object-fit: cover;
+            border-radius: 12px;
+            background: #f5e2dc;
+        }
+
+        .details h1 {
+            color: #b76e79;
+            margin-bottom: 15px;
+        }
+
+        .details p {
+            margin: 12px 0;
+            line-height: 1.7;
+        }
+
+        .price {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .button {
+            display: inline-block;
+            background: #b76e79;
+            color: white;
+            text-decoration: none;
+            border: none;
+            padding: 12px 22px;
+            border-radius: 25px;
+            margin-top: 15px;
+            margin-right: 10px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .button.secondary {
+            background: white;
+            border: 1px solid #b76e79;
+            color: #b76e79;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 25px;
+            color: #96515d;
+        }
+
+        /* ---------- CHECKOUT ---------- */
+
+        .checkout {
+            display: none;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 1px solid #eee0d8;
+        }
+
+        .checkout h2 {
+            color: #b76e79;
+            margin-bottom: 12px;
+        }
+
+        .upi-box {
+            background: #fff3d9;
+            border: 1px solid #e9c98a;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 18px;
+            line-height: 1.6;
+        }
+
+        .upi-id {
+            font-weight: bold;
+            font-size: 17px;
+            color: #6b4f1e;
+        }
+
+        .checkout label {
+            display: block;
+            margin: 14px 0 6px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .checkout input, .checkout textarea {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #d8c9bd;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        .checkout textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        #checkoutMessage {
+            margin-top: 16px;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            background: #393331;
+            color: white;
+            padding: 22px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h2>The Artistic Sukoon 🎨</h2>
+    <a href="shop.html">Marketplace</a>
+</header>
+
+<main>
+    <section class="product">
+        <img id="artImage"
+             class="art-image"
+             src="https://placehold.co/600x600/f5e2dc/59433e?text=Loading..."
+             alt="Selected artwork">
+
+        <div class="details">
+            <h1 id="artName">Loading...</h1>
+            <p id="artDescription"></p>
+            <p class="price" id="artPrice"></p>
+
+            <button class="button" id="buyNowBtn" type="button">
+                Buy Now
+            </button>
+            <a href="custom order.html" class="button secondary">
+                Enquire Instead
+            </a>
+            <br>
+            <a href="shop.html" class="back">← Back to Marketplace</a>
+
+            <!-- ===== CHECKOUT (UPI manual payment) ===== -->
+            <section class="checkout" id="checkoutSection">
+                <h2>Complete Your Purchase</h2>
+
+                <div class="upi-box">
+                    <p>
+                        Amount to pay: <strong id="upiAmountText"></strong>
+                    </p>
+                    <p class="upi-id" id="upiIdText"></p>
+
+                    <a id="upiPayLink" class="button" href="#"
+                       style="display:inline-block;margin-top:10px;">
+                        Pay via UPI App
+                    </a>
+
+                    <p style="margin-top:14px;">
+                        Or scan this QR code with any UPI app
+                        (amount is already filled in):
+                    </p>
+                    <img id="upiQrImage" alt="UPI payment QR code"
+                         style="width:180px;height:180px;margin-top:8px;
+                         border:1px solid #e9c98a;border-radius:8px;
+                         background:white;padding:6px;">
+
+                    <p style="margin-top:14px;">
+                        <strong>Important:</strong> Please pay the exact
+                        amount shown above. If a different amount is
+                        received, your order may be delayed or cancelled
+                        while we contact you.
+                    </p>
+
+                    <p>
+                        After paying, fill the form below and upload a
+                        screenshot of your payment. We will confirm your
+                        order once we verify the payment.
+                    </p>
+                </div>
+
+                <form id="checkoutForm">
+                    <label for="buyerName">Full Name *</label>
+                    <input type="text" id="buyerName" required>
+
+                    <label for="buyerPhone">Phone Number *</label>
+                    <input type="tel" id="buyerPhone" required>
+
+                    <label for="buyerAddress">Delivery Address *</label>
+                    <textarea id="buyerAddress" required></textarea>
+
+                    <label for="paymentScreenshot">
+                        Payment Screenshot *
+                    </label>
+                    <input type="file" id="paymentScreenshot"
+                           accept="image/*" required>
+
+                    <button type="submit" class="button">
+                        Submit Order
+                    </button>
+
+                    <p id="checkoutMessage" role="status" aria-live="polite"></p>
+                </form>
+            </section>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>© 2026 The Artistic Sukoon</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script>
+    const supabaseClient = window.supabase.createClient(
+        "https://lggdeyewxrqpzgqemrmr.supabase.co",
+        "sb_publishable_etpSTvH7sSkyGPd1qQqbbQ_WvSlvNSr"
+    );
+
+    // ===== EmailJS setup (order notification emails) =====
+    emailjs.init("nmHMOylIEwLim7L_C");
+    const EMAILJS_SERVICE_ID = "service_1czr5cn";
+    const EMAILJS_CUSTOMER_TEMPLATE = "template_22rkiud";
+    const EMAILJS_ADMIN_TEMPLATE = "template_vjgazdo";
+
+    // ⚠️ Change this to your real UPI ID (e.g. "yourname@okicici")
+    const UPI_ID = "9234890861@axl";
+    const UPI_PAYEE_NAME = "The Artistic Sukoon";
+
+    const params = new URLSearchParams(window.location.search);
+    const artworkId = params.get("id");
+
+    let currentArtwork = null;
+
+    function setupUpiPayment(artwork) {
+        const amount = Number(artwork.price).toFixed(2);
+        const note = "Order for " + artwork.name;
+
+        const upiUrl =
+            "upi://pay?pa=" + encodeURIComponent(UPI_ID) +
+            "&pn=" + encodeURIComponent(UPI_PAYEE_NAME) +
+            "&am=" + encodeURIComponent(amount) +
+            "&cu=INR" +
+            "&tn=" + encodeURIComponent(note);
+
+        document.getElementById("upiAmountText").textContent =
+            "₹" + Number(artwork.price).toLocaleString("en-IN");
+        document.getElementById("upiIdText").textContent = UPI_ID;
+        document.getElementById("upiPayLink").href = upiUrl;
+
+        document.getElementById("upiQrImage").src =
+            "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" +
+            encodeURIComponent(upiUrl);
+    }
+
+    async function loadArtwork() {
+        if (!artworkId) {
+            document.getElementById("artName").textContent =
+                "Artwork Not Found";
+            document.getElementById("artDescription").textContent =
+                "Please return to the Marketplace and select an artwork.";
+            return;
+        }
+
+        const { data: artwork, error } = await supabaseClient
+            .from("artworks")
+            .select("*")
+            .eq("id", artworkId)
+            .maybeSingle();
+
+        if (error || !artwork) {
+            document.getElementById("artName").textContent =
+                "Artwork Not Found";
+            document.getElementById("artDescription").textContent =
+                "Please return to the Marketplace and select an artwork.";
+            console.error(error);
+            return;
+        }
+
+        currentArtwork = artwork;
+
+        document.getElementById("artName").textContent = artwork.name;
+        document.getElementById("artDescription").textContent =
+            artwork.description || "";
+        document.getElementById("artPrice").textContent =
+            "₹" + Number(artwork.price).toLocaleString("en-IN");
+
+        document.getElementById("artImage").src = artwork.image_url;
+        document.getElementById("artImage").alt = artwork.name;
+
+        document.title = artwork.name + " | The Artistic Sukoon";
+
+        setupUpiPayment(artwork);
+    }
+
+    const buyNowBtn = document.getElementById("buyNowBtn");
+    const checkoutSection = document.getElementById("checkoutSection");
+    const checkoutForm = document.getElementById("checkoutForm");
+    const checkoutMessage = document.getElementById("checkoutMessage");
+
+    buyNowBtn.addEventListener("click", async () => {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+
+        if (!user) {
+            alert("Order place karne ke liye pehle Login karein.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        checkoutSection.style.display = "block";
+        checkoutSection.scrollIntoView({ behavior: "smooth" });
+    });
+
+    checkoutForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        if (!currentArtwork) return;
+
+        const submitButton = checkoutForm.querySelector(
+            'button[type="submit"]'
+        );
+
+        const buyerName = document.getElementById("buyerName").value.trim();
+        const buyerPhone =
+            document.getElementById("buyerPhone").value.trim();
+        const buyerAddress =
+            document.getElementById("buyerAddress").value.trim();
+        const screenshotInput =
+            document.getElementById("paymentScreenshot");
+        const file = screenshotInput.files[0];
+
+        checkoutMessage.style.color = "#9a3412";
+        checkoutMessage.textContent = "Submitting your order...";
+        submitButton.disabled = true;
+
+        try {
+            const { data: { user }, error: userError } =
+                await supabaseClient.auth.getUser();
+
+            if (userError || !user) {
+                throw new Error("Please log in again and retry.");
+            }
+
+            if (!file) {
+                throw new Error("Please upload a payment screenshot.");
+            }
+
+            const extMatch = file.name.match(/\.[a-zA-Z0-9]+$/);
+            const safeExt = extMatch ? extMatch[0].toLowerCase() : ".jpg";
+            const filePath =
+                user.id + "/" + Date.now() + safeExt;
+
+            const { error: uploadError } = await supabaseClient.storage
+                .from("payment-screenshots")
+                .upload(filePath, file);
+
+            if (uploadError) throw uploadError;
+
+            const { data: orderData, error: insertError } =
+                await supabaseClient
+                    .from("artwork_orders")
+                    .insert({
+                        artwork_id: currentArtwork.id,
+                        artwork_name: currentArtwork.name,
+                        price: currentArtwork.price,
+                        buyer_id: user.id,
+                        buyer_name: buyerName,
+                        email: user.email,
+                        phone: buyerPhone,
+                        address: buyerAddress,
+                        payment_screenshot_path: filePath,
+                        status: "Payment Pending"
+                    })
+                    .select()
+                    .single();
+
+            if (insertError) throw insertError;
+
+            checkoutMessage.style.color = "green";
+            checkoutMessage.textContent =
+                "Thank you! Your order (ID: " + orderData.id +
+                ") has been placed. We will confirm it once your " +
+                "payment is verified.";
+
+            // ===== Send order notification emails (customer + admin) =====
+            try {
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CUSTOMER_TEMPLATE, {
+                    to_email: user.email,
+                    to_name: buyerName,
+                    order_id: orderData.id,
+                    artwork_name: currentArtwork.name,
+                    price: currentArtwork.price,
+                    address: buyerAddress
+                });
+
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ADMIN_TEMPLATE, {
+                    to_email: user.email,
+                    to_name: buyerName,
+                    order_id: orderData.id,
+                    artwork_name: currentArtwork.name,
+                    price: currentArtwork.price,
+                    address: buyerAddress,
+                    phone: buyerPhone
+                });
+            } catch (emailError) {
+                console.error("Email notification error:", emailError);
+            }
+
+            checkoutForm.reset();
+        } catch (error) {
+            console.error("Checkout error:", error);
+            checkoutMessage.style.color = "red";
+            checkoutMessage.textContent =
+                error.message || "Something went wrong. Please try again.";
+        } finally {
+            submitButton.disabled = false;
+        }
+    });
+
+    loadArtwork();
+</script>
+
+</body>
+</html>
