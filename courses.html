@@ -1,115 +1,157 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drawing Courses | The Artistic Sukoon</title>
+    <title>Courses | The Artistic Sukoon</title>
 
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            font-family: Arial, sans-serif;
             background: #fffaf5;
-            color: #333;
+            color: #393331;
         }
 
         header {
             background: white;
-            padding: 20px 8%;
+            padding: 20px 7%;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 15px;
-            box-shadow: 0 2px 10px #00000010;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
         }
 
-        header h2 {
-            color: #b76e79;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #333;
-            margin-left: 15px;
-        }
+        header h2 { color: #b76e79; }
+        header a { color: #b76e79; text-decoration: none; font-weight: 500; }
 
         .hero {
             text-align: center;
-            padding: 65px 20px;
-            background: #f7e4df;
+            padding: 45px 20px 30px;
         }
 
         .hero h1 {
-            font-size: 38px;
-            margin-bottom: 15px;
+            color: #b76e79;
+            font-size: 30px;
+            margin-bottom: 10px;
         }
 
         .hero p {
-            font-size: 17px;
-            line-height: 1.7;
+            max-width: 600px;
+            margin: auto;
+            color: #6b5b55;
         }
 
-        .courses {
-            padding: 45px 8%;
+        main {
+            max-width: 1150px;
+            margin: 20px auto 50px;
+            padding: 0 18px;
         }
 
-        .courses h2 {
+        #message {
             text-align: center;
-            margin-bottom: 30px;
+            color: #6b5b55;
+            margin: 30px 0;
         }
 
-        .course-grid {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 26px;
         }
 
-        .course-card {
+        .card {
             background: white;
-            border-radius: 15px;
+            border-radius: 14px;
             overflow: hidden;
-            box-shadow: 0 4px 15px #00000012;
-            padding-bottom: 22px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+            display: flex;
+            flex-direction: column;
         }
 
-        .course-card img {
+        .thumb-wrap {
             width: 100%;
-            height: 190px;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            background: #f5e2dc;
+        }
+
+        .thumb-wrap img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
         }
 
-        .course-card h3,
-        .course-card p,
-        .course-card a {
-            margin: 15px 18px;
+        .card-body {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
-        .course-card p {
-            line-height: 1.6;
-            color: #666;
+        .card-body h3 {
+            color: #393331;
+            font-size: 17px;
+            margin-bottom: 6px;
         }
 
-        .course-card a {
-            display: inline-block;
+        .card-body p.desc {
+            font-size: 13px;
+            color: #776962;
+            line-height: 1.5;
+            flex: 1;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-weight: bold;
+            font-size: 18px;
+            color: #b76e79;
+            margin-bottom: 10px;
+        }
+
+        .enroll-btn {
+            display: block;
+            width: 100%;
+            padding: 11px;
             background: #b76e79;
             color: white;
-            padding: 11px 18px;
-            border-radius: 25px;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .enroll-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .enrolled-badge {
+            display: block;
+            width: 100%;
+            padding: 11px;
+            background: #0d7a4f;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            text-align: center;
             text-decoration: none;
         }
 
         footer {
             text-align: center;
-            padding: 25px;
-            background: #333;
+            background: #393331;
             color: white;
+            padding: 22px;
         }
     </style>
 </head>
@@ -117,58 +159,295 @@
 <body>
 
 <header>
-    <h2>The Artistic Sukoon</h2>
-
+    <h2>The Artistic Sukoon 🎨</h2>
     <nav>
-        <a href="index.html">Home</a>
-        <a href="shop.html">Marketplace</a>
-        <a href="courses.html">Courses</a>
+        <a href="index.html">Home</a> &nbsp;|&nbsp;
+        <a href="shop.html">Marketplace</a> &nbsp;|&nbsp;
+        <a href="my-orders.html">My Orders</a>
     </nav>
 </header>
 
 <section class="hero">
-    <h1>Learn Art With Us 🎨</h1>
+    <h1>Learn to Draw &mdash; Paid Courses</h1>
     <p>
-        Start your creative journey with The Artistic Sukoon.<br>
-        Learn drawing step by step, from beginner to advanced.
+        Step-by-step video courses to help you learn and improve your
+        drawing &amp; painting skills, taught directly by the artist.
+        Enroll once, watch anytime.
     </p>
 </section>
 
-<section class="courses">
-    <h2>Our Drawing Courses</h2>
-
-    <div class="course-grid">
-
-        <div class="course-card">
-            <img src="https://placehold.co/600x400/f5e1da/59433e?text=Basic+Drawing"
-                 alt="Basic drawing course">
-            <h3>Basic Drawing</h3>
-            <p>Learn shapes, lines, shading and basic drawing techniques.</p>
-            <a href="basic-drawing.html" class="button">Start Learning</a>
-        </div>
-
-        <div class="course-card">
-            <img src="https://placehold.co/600x400/e9dff5/59433e?text=Pencil+Sketching"
-                 alt="Pencil sketching course">
-            <h3>Pencil Sketching</h3>
-            <p>Practice pencil shading, portraits and realistic sketching.</p>
-<a href="pencil-sketching.html" class="button">Start Learning</a>
-        </div>
-
-        <div class="course-card">
-            <img src="https://placehold.co/600x400/dceee4/59433e?text=Painting"
-                 alt="Painting course">
-            <h3>Painting for Beginners</h3>
-            <p>Explore colours, painting techniques and creative ideas.</p>
-<a href="painting-course.html" class="button">Start Learning</a>
-        </div>
-
-    </div>
-</section>
+<main>
+    <p id="message">Loading courses...</p>
+    <div class="grid" id="coursesGrid"></div>
+</main>
 
 <footer>
-    <p>© 2026 The Artistic Sukoon | All Rights Reserved</p>
+    <p>© 2026 The Artistic Sukoon</p>
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    const SUPABASE_URL = "https://lggdeyewxrqpzgqemrmr.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_etpSTvH7sSkyGPd1qQqbbQ_WvSlvNSr";
+    const SUPABASE_FUNCTIONS_URL = SUPABASE_URL + "/functions/v1";
+    const RAZORPAY_KEY_ID = "rzp_live_U2NvNbqwOiSnoS";
+
+    const supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+    // ===== EmailJS setup (order notification emails) =====
+    emailjs.init("nmHMOylIEwLim7L_C");
+    const EMAILJS_SERVICE_ID = "service_1czr5cn";
+    const EMAILJS_CUSTOMER_TEMPLATE = "template_22rkiud";
+    const EMAILJS_ADMIN_TEMPLATE = "template_vjgazdo";
+
+    async function sendCourseEnrollmentEmails(enrollment, course, user) {
+        try {
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CUSTOMER_TEMPLATE, {
+                to_email: user.email,
+                to_name: user.email,
+                order_id: enrollment.id,
+                artwork_name: course.title,
+                price: course.price,
+                address: "Online course (no shipping needed)"
+            });
+
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ADMIN_TEMPLATE, {
+                to_email: user.email,
+                to_name: user.email,
+                order_id: enrollment.id,
+                artwork_name: course.title,
+                price: course.price,
+                address: "Online course (no shipping needed)",
+                phone: "-"
+            });
+        } catch (emailError) {
+            console.error("Email notification error:", emailError);
+        }
+    }
+
+    let myEnrollments = [];
+
+    async function loadMyEnrollments(user) {
+        if (!user) return [];
+        const { data, error } = await supabaseClient
+            .from("course_enrollments")
+            .select("course_id, status")
+            .eq("buyer_id", user.id);
+
+        if (error) {
+            console.error(error);
+            return [];
+        }
+        return data || [];
+    }
+
+    function isEnrolled(courseId) {
+        return myEnrollments.some(
+            (e) => String(e.course_id) === String(courseId) && e.status === "Paid"
+        );
+    }
+
+    async function loadCourses() {
+        const message = document.getElementById("message");
+        const grid = document.getElementById("coursesGrid");
+
+        const { data: { user } } = await supabaseClient.auth.getUser();
+        myEnrollments = await loadMyEnrollments(user);
+
+        const { data: courses, error } = await supabaseClient
+            .from("courses")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            message.textContent = "Could not load courses.";
+            console.error(error);
+            return;
+        }
+
+        if (!courses.length) {
+            message.textContent = "No courses available yet. Check back soon!";
+            return;
+        }
+
+        message.style.display = "none";
+        grid.replaceChildren();
+
+        courses.forEach((course) => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            const enrolled = isEnrolled(course.id);
+
+            card.innerHTML = `
+                <div class="thumb-wrap">
+                    <img src="${course.thumbnail_url || ''}" alt="${course.title}">
+                </div>
+                <div class="card-body">
+                    <h3>${course.title}</h3>
+                    <p class="desc">${course.description || ""}</p>
+                    <p class="price">₹${Number(course.price).toLocaleString("en-IN")}</p>
+                    ${
+                        enrolled
+                        ? `<a class="enrolled-badge" href="course-player.html?id=${course.id}">▶ Watch Course</a>`
+                        : `<button class="enroll-btn" data-id="${course.id}">Enroll Now</button>`
+                    }
+                </div>
+            `;
+
+            grid.appendChild(card);
+        });
+
+        grid.querySelectorAll(".enroll-btn").forEach((btn) => {
+            btn.addEventListener("click", () => startEnrollment(btn.dataset.id, courses));
+        });
+    }
+
+    async function startEnrollment(courseId, courses) {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+
+        if (!user) {
+            alert("Please login to enroll in a course.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        const course = courses.find(c => String(c.id) === String(courseId));
+        if (!course) return;
+
+        const { data: enrollment, error: insertError } = await supabaseClient
+            .from("course_enrollments")
+            .insert({
+                course_id: course.id,
+                course_title: course.title,
+                price: course.price,
+                buyer_id: user.id,
+                buyer_name: user.email,
+                email: user.email,
+                status: "Awaiting Payment"
+            })
+            .select()
+            .single();
+
+        if (insertError) {
+            alert("Could not start enrollment. Please try again.");
+            console.error(insertError);
+            return;
+        }
+
+        const button = document.querySelector(`.enroll-btn[data-id="${courseId}"]`);
+        if (button) {
+            button.disabled = true;
+            button.textContent = "Starting payment...";
+        }
+
+        try {
+            const { data: sessionData } = await supabaseClient.auth.getSession();
+
+            const createResponse = await fetch(
+                `${SUPABASE_FUNCTIONS_URL}/create-razorpay-order`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${sessionData.session.access_token}`,
+                        apikey: SUPABASE_ANON_KEY
+                    },
+                    body: JSON.stringify({
+                        amount: course.price,
+                        receipt: "course_enroll_" + enrollment.id
+                    })
+                }
+            );
+
+            const razorpayOrder = await createResponse.json();
+            if (!razorpayOrder.success) {
+                throw new Error(razorpayOrder.error || "Could not start payment.");
+            }
+
+            if (button) button.textContent = "Opening payment...";
+
+            const rzp = new Razorpay({
+                key: RAZORPAY_KEY_ID,
+                amount: razorpayOrder.amount,
+                currency: razorpayOrder.currency,
+                order_id: razorpayOrder.order_id,
+                name: "The Artistic Sukoon",
+                description: course.title,
+                prefill: { email: user.email },
+                theme: { color: "#b76e79" },
+                handler: async function (response) {
+                    if (button) button.textContent = "Verifying payment...";
+
+                    try {
+                        const verifyResponse = await fetch(
+                            `${SUPABASE_FUNCTIONS_URL}/verify-razorpay-payment`,
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: `Bearer ${sessionData.session.access_token}`,
+                                    apikey: SUPABASE_ANON_KEY
+                                },
+                                body: JSON.stringify({
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_signature: response.razorpay_signature,
+                                    order_table: "course_enrollments",
+                                    order_id: enrollment.id
+                                })
+                            }
+                        );
+
+                        const verifyResult = await verifyResponse.json();
+                        if (!verifyResult.success) {
+                            throw new Error(verifyResult.error || "Payment verification failed.");
+                        }
+
+                        await sendCourseEnrollmentEmails(enrollment, course, user);
+
+                        alert("Payment successful! You're enrolled — redirecting to the course.");
+                        window.location.href = "course-player.html?id=" + course.id;
+                    } catch (verifyError) {
+                        console.error("Verification error:", verifyError);
+                        alert(
+                            "Payment was received but could not be verified automatically. " +
+                            "Please contact us with your Enrollment ID: " + enrollment.id
+                        );
+                        if (button) {
+                            button.disabled = false;
+                            button.textContent = "Enroll Now";
+                        }
+                    }
+                },
+                modal: {
+                    ondismiss: function () {
+                        if (button) {
+                            button.disabled = false;
+                            button.textContent = "Enroll Now";
+                        }
+                    }
+                }
+            });
+
+            rzp.open();
+        } catch (error) {
+            console.error("Enrollment error:", error);
+            alert(error.message || "Something went wrong. Please try again.");
+            if (button) {
+                button.disabled = false;
+                button.textContent = "Enroll Now";
+            }
+        }
+    }
+
+    loadCourses();
+</script>
 
 </body>
 </html>

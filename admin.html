@@ -372,6 +372,12 @@
       <button class="nav-item" id="navProductOrders" type="button">
         💳 Product Orders
       </button>
+      <button class="nav-item" id="navDigitalProducts" type="button">
+        🖥️ Digital Products
+      </button>
+      <button class="nav-item" id="navCourses" type="button">
+        📚 Courses
+      </button>
 
       <div class="sidebar-bottom">
         <button id="logoutButton" type="button">Logout</button>
@@ -514,6 +520,156 @@
         <section id="productOrders" class="orders"></section>
       </section>
 
+      <!-- ===== DIGITAL PRODUCTS VIEW ===== -->
+      <section class="view" id="viewDigitalProducts">
+        <div class="main-header">
+          <div>
+            <h2>Digital Products</h2>
+            <p>Add, edit or remove downloadable digital art prints.</p>
+          </div>
+          <button class="add-artwork-btn" id="addDigitalProductBtn" type="button">
+            + Add New Digital Product
+          </button>
+        </div>
+
+        <form class="artwork-form" id="digitalProductForm">
+          <input type="hidden" id="dpId">
+
+          <label for="dpName">Name *</label>
+          <input type="text" id="dpName" required>
+
+          <label for="dpDescription">Description</label>
+          <textarea id="dpDescription"></textarea>
+
+          <label for="dpPrice">Price (₹) *</label>
+          <input type="number" id="dpPrice" min="0" step="1" required>
+
+          <label for="dpCategory">Category</label>
+          <input type="text" id="dpCategory" placeholder="e.g. Digital Print">
+
+          <label for="dpPreviewFile">Preview Image (shown publicly, watermarked on page) *</label>
+          <input type="file" id="dpPreviewFile" accept="image/*">
+          <p class="muted" id="dpPreviewHint" style="margin-top:6px;font-size:13px;">
+            A smaller/lower quality version is fine — customers see this before buying.
+          </p>
+          <img id="dpPreviewImg" alt="Preview"
+               style="display:none;max-width:100%;max-height:180px;
+               margin-top:10px;border-radius:8px;object-fit:cover;">
+          <input type="hidden" id="dpPreviewUrl">
+
+          <label for="dpRealFile" style="margin-top:16px;display:block;">
+            Real High-Resolution File (private — only released after payment) *
+          </label>
+          <input type="file" id="dpRealFile" accept="image/*">
+          <p class="muted" id="dpRealFileHint" style="margin-top:6px;font-size:13px;">
+            This is the actual file the customer downloads after paying.
+          </p>
+          <input type="hidden" id="dpFilePath">
+
+          <div class="form-actions">
+            <button type="submit" class="save-btn" id="dpSaveBtn">
+              Save Digital Product
+            </button>
+            <button type="button" class="cancel-btn" id="dpCancelBtn">
+              Cancel
+            </button>
+          </div>
+
+          <p id="dpFormMessage" style="margin-top:10px;"></p>
+        </form>
+
+        <div class="artwork-grid" id="dpGrid"></div>
+      </section>
+
+      <!-- ===== COURSES VIEW ===== -->
+      <section class="view" id="viewCourses">
+        <div class="main-header">
+          <div>
+            <h2>Courses</h2>
+            <p>Add, edit or remove paid video courses.</p>
+          </div>
+          <button class="add-artwork-btn" id="addCourseBtn" type="button">
+            + Add New Course
+          </button>
+        </div>
+
+        <form class="artwork-form" id="courseForm">
+          <input type="hidden" id="courseId">
+
+          <label for="courseTitle">Title *</label>
+          <input type="text" id="courseTitle" required>
+
+          <label for="courseDescription">Description</label>
+          <textarea id="courseDescription"></textarea>
+
+          <label for="coursePrice">Price (₹) *</label>
+          <input type="number" id="coursePrice" min="0" step="1" required>
+
+          <label for="courseThumbnailFile">Thumbnail Image</label>
+          <input type="file" id="courseThumbnailFile" accept="image/*">
+          <img id="courseThumbnailPreview" alt="Preview"
+               style="display:none;max-width:100%;max-height:180px;
+               margin-top:10px;border-radius:8px;object-fit:cover;">
+          <input type="hidden" id="courseThumbnailUrl">
+
+          <div class="form-actions">
+            <button type="submit" class="save-btn" id="courseSaveBtn">
+              Save Course
+            </button>
+            <button type="button" class="cancel-btn" id="courseCancelBtn">
+              Cancel
+            </button>
+          </div>
+
+          <p id="courseFormMessage" style="margin-top:10px;"></p>
+        </form>
+
+        <div class="artwork-grid" id="courseGrid"></div>
+
+        <!-- ===== VIDEOS FOR A SELECTED COURSE ===== -->
+        <div id="courseVideosPanel" style="display:none;margin-top:30px;
+             border-top:2px solid #f0ece5;padding-top:24px;">
+          <h3 id="courseVideosTitle">Videos</h3>
+          <p class="muted" style="margin-bottom:14px;">
+            Upload video lessons for this course. Students can watch these
+            only after their payment is verified.
+          </p>
+
+          <form class="artwork-form active" id="courseVideoForm"
+                style="margin-bottom:20px;">
+            <input type="hidden" id="cvCourseId">
+
+            <label for="cvTitle">Video Title *</label>
+            <input type="text" id="cvTitle" required>
+
+            <label for="cvSortOrder">Order (lower number shows first)</label>
+            <input type="number" id="cvSortOrder" min="0" step="1" value="0">
+
+            <label for="cvFile">Video File *</label>
+            <input type="file" id="cvFile" accept="video/*" required>
+            <p class="muted" style="margin-top:6px;font-size:13px;">
+              Large files can take a while to upload. Please don't close
+              this tab while uploading.
+            </p>
+
+            <div class="form-actions">
+              <button type="submit" class="save-btn" id="cvSaveBtn">
+                Upload Video
+              </button>
+            </div>
+
+            <p id="cvFormMessage" style="margin-top:10px;"></p>
+          </form>
+
+          <div id="courseVideoList"></div>
+
+          <button type="button" class="cancel-btn" id="closeCourseVideosBtn"
+                  style="margin-top:16px;">
+            Close
+          </button>
+        </div>
+      </section>
+
     </main>
   </div>
 
@@ -530,11 +686,16 @@
     const navOrders = document.getElementById("navOrders");
     const navArtworks = document.getElementById("navArtworks");
     const navProductOrders = document.getElementById("navProductOrders");
+    const navDigitalProducts = document.getElementById("navDigitalProducts");
+    const navCourses = document.getElementById("navCourses");
 
     const viewDashboard = document.getElementById("viewDashboard");
     const viewOrders = document.getElementById("viewOrders");
     const viewArtworks = document.getElementById("viewArtworks");
     const viewProductOrders = document.getElementById("viewProductOrders");
+    const viewDigitalProducts =
+      document.getElementById("viewDigitalProducts");
+    const viewCourses = document.getElementById("viewCourses");
 
     const goToOrdersBtn = document.getElementById("goToOrdersBtn");
     const goToProductOrdersBtn =
@@ -543,16 +704,24 @@
     let allOrders = [];
     let allArtworks = [];
     let allProductOrders = [];
+    let allDigitalProducts = [];
+    let allCourses = [];
 
     let ordersLoaded = false;
     let artworksLoaded = false;
     let productOrdersLoaded = false;
+    let digitalProductsLoaded = false;
+    let coursesLoaded = false;
 
     const views = {
       dashboard: { btn: navDashboard, section: viewDashboard },
       orders: { btn: navOrders, section: viewOrders },
       artworks: { btn: navArtworks, section: viewArtworks },
-      productOrders: { btn: navProductOrders, section: viewProductOrders }
+      productOrders: { btn: navProductOrders, section: viewProductOrders },
+      digitalProducts: {
+        btn: navDigitalProducts, section: viewDigitalProducts
+      },
+      courses: { btn: navCourses, section: viewCourses }
     };
 
     function showView(name) {
@@ -567,6 +736,12 @@
       if (name === "productOrders" && !productOrdersLoaded) {
         loadProductOrders();
       }
+      if (name === "digitalProducts" && !digitalProductsLoaded) {
+        loadDigitalProducts();
+      }
+      if (name === "courses" && !coursesLoaded) {
+        loadCourses();
+      }
     }
 
     navDashboard.addEventListener("click", () => showView("dashboard"));
@@ -575,6 +750,10 @@
     navProductOrders.addEventListener("click", () =>
       showView("productOrders")
     );
+    navDigitalProducts.addEventListener("click", () =>
+      showView("digitalProducts")
+    );
+    navCourses.addEventListener("click", () => showView("courses"));
     goToOrdersBtn.addEventListener("click", () => showView("orders"));
     goToProductOrdersBtn.addEventListener("click", () =>
       showView("productOrders")
@@ -605,7 +784,10 @@
 
       message.textContent = "";
 
-      await Promise.all([loadOrders(), loadArtworks(), loadProductOrders()]);
+      await Promise.all([
+        loadOrders(), loadArtworks(), loadProductOrders(),
+        loadDigitalProducts(), loadCourses()
+      ]);
       showView("dashboard");
     }
 
@@ -1283,6 +1465,670 @@
         productOrdersContainer.appendChild(card);
       }
     }
+
+    /* ===================== DIGITAL PRODUCTS ===================== */
+
+    const digitalProductForm =
+      document.getElementById("digitalProductForm");
+    const dpFormMessage = document.getElementById("dpFormMessage");
+    const addDigitalProductBtn =
+      document.getElementById("addDigitalProductBtn");
+    const dpCancelBtn = document.getElementById("dpCancelBtn");
+    const dpGrid = document.getElementById("dpGrid");
+
+    const dpPreviewFile = document.getElementById("dpPreviewFile");
+    const dpPreviewImg = document.getElementById("dpPreviewImg");
+    const dpPreviewHint = document.getElementById("dpPreviewHint");
+    const dpRealFile = document.getElementById("dpRealFile");
+    const dpRealFileHint = document.getElementById("dpRealFileHint");
+
+    function resetDigitalProductForm() {
+      digitalProductForm.reset();
+      document.getElementById("dpId").value = "";
+      document.getElementById("dpPreviewUrl").value = "";
+      document.getElementById("dpFilePath").value = "";
+      dpFormMessage.textContent = "";
+      dpPreviewImg.style.display = "none";
+      dpPreviewImg.src = "";
+      dpPreviewHint.textContent =
+        "A smaller/lower quality version is fine — customers see this " +
+        "before buying.";
+      dpRealFileHint.textContent =
+        "This is the actual file the customer downloads after paying.";
+      dpPreviewFile.required = true;
+      dpRealFile.required = true;
+      document.getElementById("dpSaveBtn").textContent =
+        "Save Digital Product";
+    }
+
+    dpPreviewFile.addEventListener("change", () => {
+      const file = dpPreviewFile.files[0];
+      if (!file) return;
+      dpPreviewImg.src = URL.createObjectURL(file);
+      dpPreviewImg.style.display = "block";
+    });
+
+    addDigitalProductBtn.addEventListener("click", () => {
+      resetDigitalProductForm();
+      digitalProductForm.classList.add("active");
+      digitalProductForm.scrollIntoView({ behavior: "smooth" });
+    });
+
+    dpCancelBtn.addEventListener("click", () => {
+      digitalProductForm.classList.remove("active");
+      resetDigitalProductForm();
+    });
+
+    async function loadDigitalProducts() {
+      dpGrid.replaceChildren();
+
+      const { data: products, error } = await supabaseClient
+        .from("digital_products")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        dpGrid.innerHTML =
+          '<p class="muted">Could not load digital products.</p>';
+        console.error(error);
+        return;
+      }
+
+      allDigitalProducts = products || [];
+      digitalProductsLoaded = true;
+      computeStats();
+
+      if (allDigitalProducts.length === 0) {
+        dpGrid.innerHTML =
+          '<p class="muted">No digital products yet. Click ' +
+          '"Add New Digital Product" to create one.</p>';
+        return;
+      }
+
+      for (const product of allDigitalProducts) {
+        const card = document.createElement("article");
+        card.className = "artwork-card";
+
+        const img = document.createElement("img");
+        img.src = product.preview_image_url;
+        img.alt = product.name;
+        card.appendChild(img);
+
+        const body = document.createElement("div");
+        body.className = "artwork-body";
+
+        const title = document.createElement("h3");
+        title.textContent = product.name;
+        body.appendChild(title);
+
+        const category = document.createElement("p");
+        category.className = "muted";
+        category.textContent = product.category || "Digital Product";
+        body.appendChild(category);
+
+        const price = document.createElement("p");
+        price.className = "artwork-price";
+        price.textContent =
+          "₹" + Number(product.price).toLocaleString("en-IN");
+        body.appendChild(price);
+
+        const actions = document.createElement("div");
+        actions.className = "artwork-actions";
+
+        const editBtn = document.createElement("button");
+        editBtn.className = "edit-btn";
+        editBtn.type = "button";
+        editBtn.textContent = "Edit";
+        editBtn.addEventListener("click", () => {
+          document.getElementById("dpId").value = product.id;
+          document.getElementById("dpName").value = product.name;
+          document.getElementById("dpDescription").value =
+            product.description || "";
+          document.getElementById("dpPrice").value = product.price;
+          document.getElementById("dpCategory").value =
+            product.category || "";
+          document.getElementById("dpPreviewUrl").value =
+            product.preview_image_url;
+          document.getElementById("dpFilePath").value = product.file_path;
+
+          dpPreviewImg.src = product.preview_image_url;
+          dpPreviewImg.style.display = "block";
+          dpPreviewHint.textContent =
+            "Current preview shown below. Choose a new file only if " +
+            "you want to replace it.";
+          dpRealFileHint.textContent =
+            "A real file is already uploaded for this product. Choose " +
+            "a new one only if you want to replace it.";
+          dpPreviewFile.required = false;
+          dpRealFile.required = false;
+
+          document.getElementById("dpSaveBtn").textContent =
+            "Update Digital Product";
+          digitalProductForm.classList.add("active");
+          digitalProductForm.scrollIntoView({ behavior: "smooth" });
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.type = "button";
+        deleteBtn.textContent = "Delete";
+        deleteBtn.addEventListener("click", async () => {
+          if (!confirm(`Delete "${product.name}"? This cannot be undone.`)) {
+            return;
+          }
+
+          const { error } = await supabaseClient
+            .from("digital_products")
+            .delete()
+            .eq("id", product.id);
+
+          if (error) {
+            alert("Could not delete: " + error.message);
+            return;
+          }
+
+          await loadDigitalProducts();
+        });
+
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+        body.appendChild(actions);
+
+        card.appendChild(body);
+        dpGrid.appendChild(card);
+      }
+    }
+
+    digitalProductForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const saveBtn = document.getElementById("dpSaveBtn");
+      saveBtn.disabled = true;
+      dpFormMessage.style.color = "#9a3412";
+      dpFormMessage.textContent = "Saving...";
+
+      const id = document.getElementById("dpId").value;
+      const previewFile = dpPreviewFile.files[0];
+      const realFile = dpRealFile.files[0];
+
+      try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+
+        let previewUrl = document.getElementById("dpPreviewUrl").value;
+        let filePath = document.getElementById("dpFilePath").value;
+
+        if (previewFile) {
+          dpFormMessage.textContent = "Uploading preview image...";
+
+          const extMatch = previewFile.name.match(/\.[a-zA-Z0-9]+$/);
+          const safeExt = extMatch ? extMatch[0].toLowerCase() : ".jpg";
+          const previewPath =
+            (user?.id || "admin") + "/" + Date.now() + "-preview" + safeExt;
+
+          const { error: uploadError } = await supabaseClient.storage
+            .from("digital-product-previews")
+            .upload(previewPath, previewFile);
+
+          if (uploadError) throw uploadError;
+
+          const { data: publicUrlData } = supabaseClient.storage
+            .from("digital-product-previews")
+            .getPublicUrl(previewPath);
+
+          previewUrl = publicUrlData.publicUrl;
+        }
+
+        if (realFile) {
+          dpFormMessage.textContent = "Uploading real file...";
+
+          const extMatch = realFile.name.match(/\.[a-zA-Z0-9]+$/);
+          const safeExt = extMatch ? extMatch[0].toLowerCase() : ".jpg";
+          filePath =
+            (user?.id || "admin") + "/" + Date.now() + "-file" + safeExt;
+
+          const { error: uploadError } = await supabaseClient.storage
+            .from("digital-product-files")
+            .upload(filePath, realFile);
+
+          if (uploadError) throw uploadError;
+        }
+
+        if (!previewUrl) {
+          throw new Error("Please choose a preview image.");
+        }
+        if (!filePath) {
+          throw new Error("Please choose the real downloadable file.");
+        }
+
+        dpFormMessage.textContent = "Saving...";
+
+        const payload = {
+          name: document.getElementById("dpName").value.trim(),
+          description:
+            document.getElementById("dpDescription").value.trim(),
+          price: Number(document.getElementById("dpPrice").value),
+          category: document.getElementById("dpCategory").value.trim(),
+          preview_image_url: previewUrl,
+          file_path: filePath
+        };
+
+        let error;
+
+        if (id) {
+          ({ error } = await supabaseClient
+            .from("digital_products")
+            .update(payload)
+            .eq("id", id));
+        } else {
+          ({ error } = await supabaseClient
+            .from("digital_products")
+            .insert(payload));
+        }
+
+        if (error) throw error;
+
+        dpFormMessage.style.color = "green";
+        dpFormMessage.textContent = "Saved!";
+
+        await loadDigitalProducts();
+
+        setTimeout(() => {
+          digitalProductForm.classList.remove("active");
+          resetDigitalProductForm();
+        }, 600);
+      } catch (error) {
+        console.error("Digital product save error:", error);
+        dpFormMessage.style.color = "red";
+        dpFormMessage.textContent = "Could not save: " + error.message;
+      } finally {
+        saveBtn.disabled = false;
+      }
+    });
+
+    // ================= COURSES CRUD =================
+    const courseForm = document.getElementById("courseForm");
+    const courseFormMessage = document.getElementById("courseFormMessage");
+    const addCourseBtn = document.getElementById("addCourseBtn");
+    const courseCancelBtn = document.getElementById("courseCancelBtn");
+    const courseGrid = document.getElementById("courseGrid");
+
+    const courseThumbnailFile =
+      document.getElementById("courseThumbnailFile");
+    const courseThumbnailPreview =
+      document.getElementById("courseThumbnailPreview");
+
+    const courseVideosPanel = document.getElementById("courseVideosPanel");
+    const courseVideosTitle = document.getElementById("courseVideosTitle");
+    const courseVideoList = document.getElementById("courseVideoList");
+    const courseVideoForm = document.getElementById("courseVideoForm");
+    const cvFormMessage = document.getElementById("cvFormMessage");
+    const closeCourseVideosBtn =
+      document.getElementById("closeCourseVideosBtn");
+
+    function resetCourseForm() {
+      courseForm.reset();
+      document.getElementById("courseId").value = "";
+      document.getElementById("courseThumbnailUrl").value = "";
+      courseFormMessage.textContent = "";
+      courseThumbnailPreview.style.display = "none";
+      courseThumbnailPreview.src = "";
+      document.getElementById("courseSaveBtn").textContent = "Save Course";
+    }
+
+    courseThumbnailFile.addEventListener("change", () => {
+      const file = courseThumbnailFile.files[0];
+      if (!file) return;
+      courseThumbnailPreview.src = URL.createObjectURL(file);
+      courseThumbnailPreview.style.display = "block";
+    });
+
+    addCourseBtn.addEventListener("click", () => {
+      resetCourseForm();
+      courseForm.classList.add("active");
+      courseForm.scrollIntoView({ behavior: "smooth" });
+    });
+
+    courseCancelBtn.addEventListener("click", () => {
+      courseForm.classList.remove("active");
+      resetCourseForm();
+    });
+
+    async function loadCourses() {
+      courseGrid.replaceChildren();
+
+      const { data: courses, error } = await supabaseClient
+        .from("courses")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        courseGrid.innerHTML = '<p class="muted">Could not load courses.</p>';
+        console.error(error);
+        return;
+      }
+
+      allCourses = courses || [];
+      coursesLoaded = true;
+
+      if (allCourses.length === 0) {
+        courseGrid.innerHTML =
+          '<p class="muted">No courses yet. Click "Add New Course" ' +
+          "to create one.</p>";
+        return;
+      }
+
+      for (const course of allCourses) {
+        const card = document.createElement("article");
+        card.className = "artwork-card";
+
+        if (course.thumbnail_url) {
+          const img = document.createElement("img");
+          img.src = course.thumbnail_url;
+          img.alt = course.title;
+          card.appendChild(img);
+        }
+
+        const body = document.createElement("div");
+        body.className = "artwork-body";
+
+        const title = document.createElement("h3");
+        title.textContent = course.title;
+        body.appendChild(title);
+
+        const price = document.createElement("p");
+        price.className = "artwork-price";
+        price.textContent =
+          "₹" + Number(course.price).toLocaleString("en-IN");
+        body.appendChild(price);
+
+        const actions = document.createElement("div");
+        actions.className = "artwork-actions";
+
+        const videosBtn = document.createElement("button");
+        videosBtn.className = "edit-btn";
+        videosBtn.type = "button";
+        videosBtn.textContent = "Manage Videos";
+        videosBtn.addEventListener("click", () => openCourseVideos(course));
+
+        const editBtn = document.createElement("button");
+        editBtn.className = "edit-btn";
+        editBtn.type = "button";
+        editBtn.textContent = "Edit";
+        editBtn.addEventListener("click", () => {
+          document.getElementById("courseId").value = course.id;
+          document.getElementById("courseTitle").value = course.title;
+          document.getElementById("courseDescription").value =
+            course.description || "";
+          document.getElementById("coursePrice").value = course.price;
+          document.getElementById("courseThumbnailUrl").value =
+            course.thumbnail_url || "";
+
+          if (course.thumbnail_url) {
+            courseThumbnailPreview.src = course.thumbnail_url;
+            courseThumbnailPreview.style.display = "block";
+          }
+
+          document.getElementById("courseSaveBtn").textContent =
+            "Update Course";
+          courseForm.classList.add("active");
+          courseForm.scrollIntoView({ behavior: "smooth" });
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.type = "button";
+        deleteBtn.textContent = "Delete";
+        deleteBtn.addEventListener("click", async () => {
+          if (
+            !confirm(
+              `Delete "${course.title}"? This also removes its videos. ` +
+              "This cannot be undone."
+            )
+          ) {
+            return;
+          }
+
+          const { error } = await supabaseClient
+            .from("courses")
+            .delete()
+            .eq("id", course.id);
+
+          if (error) {
+            alert("Could not delete: " + error.message);
+            return;
+          }
+
+          await loadCourses();
+        });
+
+        actions.appendChild(videosBtn);
+        actions.appendChild(editBtn);
+        actions.appendChild(deleteBtn);
+        body.appendChild(actions);
+
+        card.appendChild(body);
+        courseGrid.appendChild(card);
+      }
+    }
+
+    courseForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const saveBtn = document.getElementById("courseSaveBtn");
+      saveBtn.disabled = true;
+      courseFormMessage.style.color = "#9a3412";
+      courseFormMessage.textContent = "Saving...";
+
+      const id = document.getElementById("courseId").value;
+      const thumbnailFile = courseThumbnailFile.files[0];
+
+      try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+
+        let thumbnailUrl =
+          document.getElementById("courseThumbnailUrl").value;
+
+        if (thumbnailFile) {
+          courseFormMessage.textContent = "Uploading thumbnail...";
+
+          const extMatch = thumbnailFile.name.match(/\.[a-zA-Z0-9]+$/);
+          const safeExt = extMatch ? extMatch[0].toLowerCase() : ".jpg";
+          const thumbPath =
+            (user?.id || "admin") + "/" + Date.now() + "-thumb" + safeExt;
+
+          const { error: uploadError } = await supabaseClient.storage
+            .from("course-thumbnails")
+            .upload(thumbPath, thumbnailFile);
+
+          if (uploadError) throw uploadError;
+
+          const { data: publicUrlData } = supabaseClient.storage
+            .from("course-thumbnails")
+            .getPublicUrl(thumbPath);
+
+          thumbnailUrl = publicUrlData.publicUrl;
+        }
+
+        courseFormMessage.textContent = "Saving...";
+
+        const payload = {
+          title: document.getElementById("courseTitle").value.trim(),
+          description:
+            document.getElementById("courseDescription").value.trim(),
+          price: Number(document.getElementById("coursePrice").value),
+          thumbnail_url: thumbnailUrl || null
+        };
+
+        let error;
+
+        if (id) {
+          ({ error } = await supabaseClient
+            .from("courses")
+            .update(payload)
+            .eq("id", id));
+        } else {
+          ({ error } = await supabaseClient
+            .from("courses")
+            .insert(payload));
+        }
+
+        if (error) throw error;
+
+        courseFormMessage.style.color = "green";
+        courseFormMessage.textContent = "Saved!";
+
+        await loadCourses();
+
+        setTimeout(() => {
+          courseForm.classList.remove("active");
+          resetCourseForm();
+        }, 600);
+      } catch (error) {
+        console.error("Course save error:", error);
+        courseFormMessage.style.color = "red";
+        courseFormMessage.textContent = "Could not save: " + error.message;
+      } finally {
+        saveBtn.disabled = false;
+      }
+    });
+
+    // ----- Course videos management -----
+    let currentVideoCourse = null;
+
+    function openCourseVideos(course) {
+      currentVideoCourse = course;
+      document.getElementById("cvCourseId").value = course.id;
+      courseVideosTitle.textContent = "Videos for: " + course.title;
+      courseVideosPanel.style.display = "block";
+      courseVideosPanel.scrollIntoView({ behavior: "smooth" });
+      courseVideoForm.reset();
+      cvFormMessage.textContent = "";
+      loadCourseVideos(course.id);
+    }
+
+    closeCourseVideosBtn.addEventListener("click", () => {
+      courseVideosPanel.style.display = "none";
+      currentVideoCourse = null;
+    });
+
+    async function loadCourseVideos(courseId) {
+      courseVideoList.innerHTML = "<p class=\"muted\">Loading videos...</p>";
+
+      const { data: videos, error } = await supabaseClient
+        .from("course_videos")
+        .select("*")
+        .eq("course_id", courseId)
+        .order("sort_order", { ascending: true });
+
+      if (error) {
+        courseVideoList.innerHTML =
+          '<p class="muted">Could not load videos.</p>';
+        console.error(error);
+        return;
+      }
+
+      if (!videos || videos.length === 0) {
+        courseVideoList.innerHTML =
+          '<p class="muted">No videos uploaded yet for this course.</p>';
+        return;
+      }
+
+      courseVideoList.replaceChildren();
+
+      videos.forEach((video) => {
+        const row = document.createElement("div");
+        row.style.cssText =
+          "display:flex;align-items:center;justify-content:space-between;" +
+          "padding:12px 0;border-bottom:1px solid #f0ece5;";
+
+        const label = document.createElement("span");
+        label.textContent =
+          "(" + video.sort_order + ") " + video.title;
+        row.appendChild(label);
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "delete-btn";
+        deleteBtn.type = "button";
+        deleteBtn.textContent = "Delete";
+        deleteBtn.addEventListener("click", async () => {
+          if (!confirm(`Delete video "${video.title}"?`)) return;
+
+          await supabaseClient.storage
+            .from("course-videos")
+            .remove([video.video_path]);
+
+          const { error: deleteError } = await supabaseClient
+            .from("course_videos")
+            .delete()
+            .eq("id", video.id);
+
+          if (deleteError) {
+            alert("Could not delete: " + deleteError.message);
+            return;
+          }
+
+          await loadCourseVideos(courseId);
+        });
+
+        row.appendChild(deleteBtn);
+        courseVideoList.appendChild(row);
+      });
+    }
+
+    courseVideoForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!currentVideoCourse) return;
+
+      const saveBtn = document.getElementById("cvSaveBtn");
+      const file = document.getElementById("cvFile").files[0];
+
+      if (!file) return;
+
+      saveBtn.disabled = true;
+      cvFormMessage.style.color = "#9a3412";
+      cvFormMessage.textContent = "Uploading video... please wait.";
+
+      try {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+
+        const extMatch = file.name.match(/\.[a-zA-Z0-9]+$/);
+        const safeExt = extMatch ? extMatch[0].toLowerCase() : ".mp4";
+        const videoPath =
+          (user?.id || "admin") + "/" + currentVideoCourse.id + "/" +
+          Date.now() + safeExt;
+
+        const { error: uploadError } = await supabaseClient.storage
+          .from("course-videos")
+          .upload(videoPath, file);
+
+        if (uploadError) throw uploadError;
+
+        const { error: insertError } = await supabaseClient
+          .from("course_videos")
+          .insert({
+            course_id: currentVideoCourse.id,
+            title: document.getElementById("cvTitle").value.trim(),
+            video_path: videoPath,
+            sort_order: Number(
+              document.getElementById("cvSortOrder").value || 0
+            )
+          });
+
+        if (insertError) throw insertError;
+
+        cvFormMessage.style.color = "green";
+        cvFormMessage.textContent = "Video uploaded!";
+        courseVideoForm.reset();
+
+        await loadCourseVideos(currentVideoCourse.id);
+      } catch (error) {
+        console.error("Video upload error:", error);
+        cvFormMessage.style.color = "red";
+        cvFormMessage.textContent = "Could not upload: " + error.message;
+      } finally {
+        saveBtn.disabled = false;
+      }
+    });
 
     document.getElementById("logoutButton").addEventListener(
       "click",

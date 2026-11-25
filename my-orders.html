@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,6 +101,33 @@
             cursor: pointer;
             font-size: 14px;
         }
+
+        button.download-btn {
+            margin-top: 10px;
+            padding: 9px 14px;
+            background: #b76e79;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button.download-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        a.watch-course-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 9px 16px;
+            background: #0d7a4f;
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -123,6 +151,14 @@
         <h2 class="section-heading">Marketplace Orders</h2>
         <div id="productMessage" class="message">Loading your orders...</div>
         <div id="productOrders"></div>
+
+        <h2 class="section-heading">Digital Purchases</h2>
+        <div id="digitalMessage" class="message">Loading your orders...</div>
+        <div id="digitalOrders"></div>
+
+        <h2 class="section-heading">My Courses</h2>
+        <div id="courseMessage" class="message">Loading your courses...</div>
+        <div id="courseOrders"></div>
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -332,6 +368,182 @@
             }
         }
 
+        async function loadDigitalOrders(user) {
+            const message = document.getElementById("digitalMessage");
+            const ordersContainer = document.getElementById("digitalOrders");
+
+            const { data: orders, error } = await supabaseClient
+                .from("digital_product_orders")
+                .select("*")
+                .eq("buyer_id", user.id)
+                .order("created_at", { ascending: false });
+
+            if (error) {
+                message.textContent =
+                    "Orders load nahi ho paaye. Database access policy check karein.";
+                console.error("Digital order loading error:", error);
+                return;
+            }
+
+            message.textContent = orders.length
+                ? "Aapke total digital purchases: " + orders.length
+                : "Abhi aapne koi digital print nahi khareedi hai.";
+
+            for (const order of orders) {
+                const card = document.createElement("article");
+                card.className = "order-card";
+
+                const title = document.createElement("h3");
+                title.textContent = order.product_name || "Digital Print";
+                card.appendChild(title);
+
+                const details = [
+                    ["Order ID", order.id],
+                    ["Price", "₹" + Number(order.price).toLocaleString("en-IN")],
+                    ["Order Date", order.created_at
+                        ? new Date(order.created_at).toLocaleDateString()
+                        : "Not available"]
+                ];
+
+                details.forEach(([label, value]) => {
+                    if (value !== null && value !== undefined && value !== "") {
+                        const p = document.createElement("p");
+                        p.className = "muted";
+                        p.textContent = label + ": " + value;
+                        card.appendChild(p);
+                    }
+                });
+
+                const status = document.createElement("span");
+                status.className = "status";
+                status.textContent = "Status: " + (order.status || "Awaiting Payment");
+                card.appendChild(status);
+
+                if (order.status === "Paid") {
+                    const downloadBtn = document.createElement("button");
+                    downloadBtn.type = "button";
+                    downloadBtn.className = "download-btn";
+                    downloadBtn.textContent = "Download File";
+
+                    downloadBtn.addEventListener("click", async () => {
+                        downloadBtn.disabled = true;
+                        downloadBtn.textContent = "Preparing download...";
+
+                        const { data: productRow, error: productError } =
+                            await supabaseClient
+                                .from("digital_products")
+                                .select("file_path")
+                                .eq("id", order.product_id)
+                                .maybeSingle();
+
+                        if (productError || !productRow || !productRow.file_path) {
+                            alert("Download link nahi ban paaya. Kripya hume contact karein.");
+                            console.error(productError);
+                            downloadBtn.disabled = false;
+                            downloadBtn.textContent = "Download File";
+                            return;
+                        }
+
+                        const { data: signedData, error: signedError } =
+                            await supabaseClient.storage
+                                .from("digital-product-files")
+                                .createSignedUrl(productRow.file_path, 300);
+
+                        downloadBtn.disabled = false;
+                        downloadBtn.textContent = "Download File";
+
+                        if (signedError || !signedData) {
+                            alert("Download link nahi ban paaya. Kripya hume contact karein.");
+                            console.error(signedError);
+                            return;
+                        }
+
+                        window.open(signedData.signedUrl, "_blank");
+                    });
+
+                    card.appendChild(downloadBtn);
+                } else {
+                    const note = document.createElement("p");
+                    note.className = "muted";
+                    note.textContent =
+                        "Payment confirm hote hi yahan download button dikhega.";
+                    card.appendChild(note);
+                }
+
+                ordersContainer.appendChild(card);
+            }
+        }
+
+        async function loadCourseEnrollments(user) {
+            const message = document.getElementById("courseMessage");
+            const ordersContainer = document.getElementById("courseOrders");
+
+            const { data: enrollments, error } = await supabaseClient
+                .from("course_enrollments")
+                .select("*")
+                .eq("buyer_id", user.id)
+                .order("created_at", { ascending: false });
+
+            if (error) {
+                message.textContent =
+                    "Courses load nahi ho paaye. Database access policy check karein.";
+                console.error("Course enrollment loading error:", error);
+                return;
+            }
+
+            message.textContent = enrollments.length
+                ? "Aapke total course enrollments: " + enrollments.length
+                : "Abhi aapne koi course enroll nahi kiya hai.";
+
+            for (const enrollment of enrollments) {
+                const card = document.createElement("article");
+                card.className = "order-card";
+
+                const title = document.createElement("h3");
+                title.textContent = enrollment.course_title || "Course";
+                card.appendChild(title);
+
+                const details = [
+                    ["Enrollment ID", enrollment.id],
+                    ["Price", "₹" + Number(enrollment.price).toLocaleString("en-IN")],
+                    ["Enrolled On", enrollment.created_at
+                        ? new Date(enrollment.created_at).toLocaleDateString()
+                        : "Not available"]
+                ];
+
+                details.forEach(([label, value]) => {
+                    if (value !== null && value !== undefined && value !== "") {
+                        const p = document.createElement("p");
+                        p.className = "muted";
+                        p.textContent = label + ": " + value;
+                        card.appendChild(p);
+                    }
+                });
+
+                const status = document.createElement("span");
+                status.className = "status";
+                status.textContent = "Status: " + (enrollment.status || "Awaiting Payment");
+                card.appendChild(status);
+
+                if (enrollment.status === "Paid") {
+                    const watchLink = document.createElement("a");
+                    watchLink.className = "watch-course-btn";
+                    watchLink.href = "course-player.html?id=" + enrollment.course_id;
+                    watchLink.textContent = "▶ Watch Course";
+                    card.appendChild(document.createElement("br"));
+                    card.appendChild(watchLink);
+                } else {
+                    const note = document.createElement("p");
+                    note.className = "muted";
+                    note.textContent =
+                        "Payment confirm hote hi yahan 'Watch Course' button dikhega.";
+                    card.appendChild(note);
+                }
+
+                ordersContainer.appendChild(card);
+            }
+        }
+
         async function loadOrders() {
             const { data: { user }, error: authError } =
                 await supabaseClient.auth.getUser();
@@ -339,9 +551,13 @@
             if (authError || !user) {
                 const customMessage = document.getElementById("customMessage");
                 const productMessage = document.getElementById("productMessage");
+                const digitalMessage = document.getElementById("digitalMessage");
+                const courseMessage = document.getElementById("courseMessage");
 
                 customMessage.textContent = "Please login to view your orders. ";
                 productMessage.textContent = "Please login to view your orders. ";
+                digitalMessage.textContent = "Please login to view your orders. ";
+                courseMessage.textContent = "Please login to view your courses. ";
 
                 const link1 = document.createElement("a");
                 link1.href = "login.html";
@@ -352,12 +568,24 @@
                 link2.href = "login.html";
                 link2.textContent = "Login now";
                 productMessage.appendChild(link2);
+
+                const link3 = document.createElement("a");
+                link3.href = "login.html";
+                link3.textContent = "Login now";
+                digitalMessage.appendChild(link3);
+
+                const link4 = document.createElement("a");
+                link4.href = "login.html";
+                link4.textContent = "Login now";
+                courseMessage.appendChild(link4);
                 return;
             }
 
             await Promise.all([
                 loadCustomOrders(user),
-                loadProductOrders(user)
+                loadProductOrders(user),
+                loadDigitalOrders(user),
+                loadCourseEnrollments(user)
             ]);
         }
 

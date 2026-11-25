@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Art Prints | The Artistic Sukoon</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #fffaf5;
+            color: #393331;
+            /* ---- basic copy-protection deterrents ---- */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+        }
+
+        header {
+            background: white;
+            padding: 20px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+        }
+
+        header h2 { color: #b76e79; }
+        header a { color: #b76e79; text-decoration: none; font-weight: 500; }
+
+        .hero {
+            text-align: center;
+            padding: 45px 20px 30px;
+        }
+
+        .hero h1 {
+            color: #b76e79;
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .hero p {
+            max-width: 600px;
+            margin: auto;
+            color: #6b5b55;
+        }
+
+        main {
+            max-width: 1150px;
+            margin: 20px auto 50px;
+            padding: 0 18px;
+        }
+
+        #message {
+            text-align: center;
+            color: #6b5b55;
+            margin: 30px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+            gap: 26px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .preview-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background: #f5e2dc;
+        }
+
+        .preview-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;      /* blocks drag-to-save in most browsers */
+            -webkit-user-drag: none;
+        }
+
+        .watermark-overlay {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .watermark-overlay span {
+            color: rgba(255,255,255,0.55);
+            font-size: 15px;
+            font-weight: bold;
+            transform: rotate(-30deg);
+            white-space: nowrap;
+            text-shadow: 0 0 4px rgba(0,0,0,0.5);
+        }
+
+        .card-body {
+            padding: 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-body h3 {
+            color: #393331;
+            font-size: 16px;
+            margin-bottom: 6px;
+        }
+
+        .card-body p.desc {
+            font-size: 13px;
+            color: #776962;
+            line-height: 1.5;
+            flex: 1;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-weight: bold;
+            font-size: 17px;
+            color: #b76e79;
+            margin-bottom: 10px;
+        }
+
+        .buy-btn {
+            display: block;
+            width: 100%;
+            padding: 11px;
+            background: #b76e79;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .buy-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        footer {
+            text-align: center;
+            background: #393331;
+            color: white;
+            padding: 22px;
+        }
+    </style>
+</head>
+
+<body oncontextmenu="return false;">
+
+<header>
+    <h2>The Artistic Sukoon 🎨</h2>
+    <nav>
+        <a href="index.html">Home</a> &nbsp;|&nbsp;
+        <a href="shop.html">Marketplace</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Digital Art Prints</h1>
+    <p>
+        High-resolution digital photos of original artworks &mdash; instantly
+        downloadable after purchase. Perfect if you just want the artwork
+        for your screen, or to print yourself.
+    </p>
+</section>
+
+<main>
+    <p id="message">Loading digital products...</p>
+    <div class="grid" id="productsGrid"></div>
+</main>
+
+<footer>
+    <p>© 2026 The Artistic Sukoon</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    const SUPABASE_URL = "https://lggdeyewxrqpzgqemrmr.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_etpSTvH7sSkyGPd1qQqbbQ_WvSlvNSr";
+    const SUPABASE_FUNCTIONS_URL = SUPABASE_URL + "/functions/v1";
+    const RAZORPAY_KEY_ID = "rzp_live_U2NvNbqwOiSnoS";
+
+    const supabaseClient = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY
+    );
+
+    // ===== EmailJS setup (order notification emails) =====
+    emailjs.init("nmHMOylIEwLim7L_C");
+    const EMAILJS_SERVICE_ID = "service_1czr5cn";
+    const EMAILJS_CUSTOMER_TEMPLATE = "template_22rkiud";
+    const EMAILJS_ADMIN_TEMPLATE = "template_vjgazdo";
+
+    async function sendDigitalOrderEmails(order, product, user) {
+        try {
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_CUSTOMER_TEMPLATE, {
+                to_email: user.email,
+                to_name: user.email,
+                order_id: order.id,
+                artwork_name: product.name,
+                price: product.price,
+                address: "Digital download (no shipping needed)"
+            });
+
+            await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_ADMIN_TEMPLATE, {
+                to_email: user.email,
+                to_name: user.email,
+                order_id: order.id,
+                artwork_name: product.name,
+                price: product.price,
+                address: "Digital download (no shipping needed)",
+                phone: "-"
+            });
+        } catch (emailError) {
+            console.error("Email notification error:", emailError);
+        }
+    }
+
+    // ---- extra copy-protection deterrents (best-effort only) ----
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("dragstart", e => e.preventDefault());
+    document.addEventListener("keydown", (e) => {
+        const key = e.key.toLowerCase();
+        if (
+            e.key === "PrintScreen" ||
+            (e.ctrlKey && (key === "s" || key === "p" || key === "u")) ||
+            (e.ctrlKey && e.shiftKey && key === "i") ||
+            e.key === "F12"
+        ) {
+            e.preventDefault();
+        }
+    });
+
+    async function loadProducts() {
+        const message = document.getElementById("message");
+        const grid = document.getElementById("productsGrid");
+
+        const { data: products, error } = await supabaseClient
+            .from("digital_products")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            message.textContent = "Could not load digital products.";
+            console.error(error);
+            return;
+        }
+
+        if (!products.length) {
+            message.textContent = "No digital prints available yet. Check back soon!";
+            return;
+        }
+
+        message.style.display = "none";
+
+        products.forEach((product) => {
+            const card = document.createElement("div");
+            card.className = "card";
+
+            card.innerHTML = `
+                <div class="preview-wrap">
+                    <img src="${product.preview_image_url}" alt="${product.name}">
+                    <div class="watermark-overlay">
+                        <span>THE ARTISTIC SUKOON &bull; PREVIEW</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>${product.name}</h3>
+                    <p class="desc">${product.description || ""}</p>
+                    <p class="price">₹${Number(product.price).toLocaleString("en-IN")}</p>
+                    <button class="buy-btn" data-id="${product.id}">Buy &amp; Download</button>
+                </div>
+            `;
+
+            grid.appendChild(card);
+        });
+
+        grid.querySelectorAll(".buy-btn").forEach((btn) => {
+            btn.addEventListener("click", () => startPurchase(btn.dataset.id, products));
+        });
+    }
+
+    async function startPurchase(productId, products) {
+        const { data: { user } } = await supabaseClient.auth.getUser();
+
+        if (!user) {
+            alert("Please login to purchase a digital print.");
+            window.location.href = "login.html";
+            return;
+        }
+
+        const product = products.find(p => String(p.id) === String(productId));
+        if (!product) return;
+
+        // Create the order record first (status: Awaiting Payment)
+        const { data: order, error: insertError } = await supabaseClient
+            .from("digital_product_orders")
+            .insert({
+                product_id: product.id,
+                product_name: product.name,
+                price: product.price,
+                buyer_id: user.id,
+                buyer_name: user.email,
+                email: user.email,
+                status: "Awaiting Payment"
+            })
+            .select()
+            .single();
+
+        if (insertError) {
+            alert("Could not start order. Please try again.");
+            console.error(insertError);
+            return;
+        }
+
+        const button = document.querySelector(`.buy-btn[data-id="${productId}"]`);
+        if (button) {
+            button.disabled = true;
+            button.textContent = "Starting payment...";
+        }
+
+        try {
+            const { data: sessionData } = await supabaseClient.auth.getSession();
+
+            const createResponse = await fetch(
+                `${SUPABASE_FUNCTIONS_URL}/create-razorpay-order`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${sessionData.session.access_token}`,
+                        apikey: SUPABASE_ANON_KEY
+                    },
+                    body: JSON.stringify({
+                        amount: product.price,
+                        receipt: "digital_order_" + order.id
+                    })
+                }
+            );
+
+            const razorpayOrder = await createResponse.json();
+            if (!razorpayOrder.success) {
+                throw new Error(razorpayOrder.error || "Could not start payment.");
+            }
+
+            if (button) button.textContent = "Opening payment...";
+
+            const rzp = new Razorpay({
+                key: RAZORPAY_KEY_ID,
+                amount: razorpayOrder.amount,
+                currency: razorpayOrder.currency,
+                order_id: razorpayOrder.order_id,
+                name: "The Artistic Sukoon",
+                description: product.name,
+                prefill: { email: user.email },
+                theme: { color: "#b76e79" },
+                handler: async function (response) {
+                    if (button) button.textContent = "Verifying payment...";
+
+                    try {
+                        const verifyResponse = await fetch(
+                            `${SUPABASE_FUNCTIONS_URL}/verify-razorpay-payment`,
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: `Bearer ${sessionData.session.access_token}`,
+                                    apikey: SUPABASE_ANON_KEY
+                                },
+                                body: JSON.stringify({
+                                    razorpay_order_id: response.razorpay_order_id,
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    razorpay_signature: response.razorpay_signature,
+                                    order_table: "digital_product_orders",
+                                    order_id: order.id
+                                })
+                            }
+                        );
+
+                        const verifyResult = await verifyResponse.json();
+                        if (!verifyResult.success) {
+                            throw new Error(verifyResult.error || "Payment verification failed.");
+                        }
+
+                        // Payment confirmed — send the confirmation emails
+                        await sendDigitalOrderEmails(order, product, user);
+
+                        // Payment confirmed — generate a signed, time-limited
+                        // download link for the real file right away.
+                        const { data: signedData, error: signedError } =
+                            await supabaseClient.storage
+                                .from("digital-product-files")
+                                .createSignedUrl(product.file_path, 60 * 10); // 10 min
+
+                        if (signedError || !signedData) {
+                            alert(
+                                "Payment successful! (Order ID: " + order.id + ")\n\n" +
+                                "We could not generate your download link just now — " +
+                                "please go to My Orders to download your file."
+                            );
+                        } else {
+                            if (button) {
+                                button.disabled = false;
+                                button.textContent = "Download now";
+                                button.onclick = () => window.open(signedData.signedUrl, "_blank");
+                            }
+                            alert(
+                                "Payment successful! Your download is ready — " +
+                                "click the button again to download, or go to My Orders anytime."
+                            );
+                        }
+                    } catch (verifyError) {
+                        console.error("Verification error:", verifyError);
+                        alert(
+                            "Payment was received but could not be verified automatically. " +
+                            "Please contact us with your Order ID: " + order.id
+                        );
+                        if (button) {
+                            button.disabled = false;
+                            button.textContent = "Buy & Download";
+                        }
+                    }
+                },
+                modal: {
+                    ondismiss: function () {
+                        if (button) {
+                            button.disabled = false;
+                            button.textContent = "Buy & Download";
+                        }
+                    }
+                }
+            });
+
+            rzp.open();
+        } catch (error) {
+            console.error("Purchase error:", error);
+            alert(error.message || "Something went wrong. Please try again.");
+            if (button) {
+                button.disabled = false;
+                button.textContent = "Buy & Download";
+            }
+        }
+    }
+
+    loadProducts();
+</script>
+
+</body>
+</html>
