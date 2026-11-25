@@ -67,6 +67,34 @@
             margin-left: 8px;
         }
 
+        /* ---------- MOBILE HAMBURGER MENU ---------- */
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 28px;
+            height: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .menu-toggle span {
+            display: block;
+            height: 3px;
+            width: 100%;
+            background: #075e54;
+            border-radius: 2px;
+        }
+
+        .nav-links-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+
         .login {
             background: white;
             border: 1px solid #075e54;
@@ -373,8 +401,56 @@
 
         @media(max-width: 900px) {
 
-            nav ul {
+            .menu-toggle {
+                display: flex;
+            }
+
+            .nav-links-wrapper {
                 display: none;
+                position: absolute;
+                top: 75px;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0;
+                box-shadow: 0 8px 14px rgba(0,0,0,0.1);
+                z-index: 50;
+            }
+
+            .nav-links-wrapper.open {
+                display: flex;
+            }
+
+            nav ul {
+                flex-direction: column;
+                width: 100%;
+                gap: 0;
+            }
+
+            nav ul li {
+                width: 100%;
+                border-bottom: 1px solid #f0ece5;
+            }
+
+            nav ul li a {
+                display: block;
+                padding: 16px 7%;
+            }
+
+            .nav-buttons {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+                padding: 16px 7% 20px;
+            }
+
+            .nav-buttons a {
+                width: 100%;
+                text-align: center;
+                margin-left: 0 !important;
             }
 
             .hero {
@@ -413,10 +489,6 @@
 
             .categories {
                 grid-template-columns: 1fr 1fr;
-            }
-
-            .nav-buttons {
-                display: none;
             }
         }
 
@@ -625,31 +697,50 @@
         <span>Art • Learn • Create • Grow</span>
     </div>
 
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html">Marketplace</a></li>
-        <li><a href="courses.html">Courses</a></li>
-        <li><a href="custom order.html">Custom Order</a></li>
-        <li><a href="about.html">About</a></li>
-    </ul>
+    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu">
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
 
-    
-<div class="nav-buttons">
-    <a href="login.html" class="login"
-       style="display:inline-block; padding:10px 20px;
-       border-radius:25px; text-decoration:none;">
-        Login
-    </a>
+    <div class="nav-links-wrapper" id="navLinksWrapper">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="shop.html">Marketplace</a></li>
+            <li><a href="digital-products.html">Digital Prints</a></li>
+            <li><a href="courses.html">Courses</a></li>
+            <li><a href="custom order.html">Custom Order</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
 
-    <a href="signup.html" class="signup"
-       style="display:inline-block; padding:10px 20px;
-       border-radius:25px; text-decoration:none;">
-        Sign Up
-    </a>
-</div>
 
+        <div class="nav-buttons">
+            <a href="login.html" class="login"
+               style="display:inline-block; padding:10px 20px;
+               border-radius:25px; text-decoration:none;">
+                Login
+            </a>
+
+            <a href="signup.html" class="signup"
+               style="display:inline-block; padding:10px 20px;
+               border-radius:25px; text-decoration:none;">
+                Sign Up
+            </a>
+        </div>
+    </div>
 
 </nav>
+
+<script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinksWrapper = document.getElementById("navLinksWrapper");
+
+    if (menuToggle && navLinksWrapper) {
+        menuToggle.addEventListener("click", () => {
+            navLinksWrapper.classList.toggle("open");
+        });
+    }
+</script>
 
 
 <!-- ADMIN NOTICE (shown only if the logged-in user is an admin) -->
